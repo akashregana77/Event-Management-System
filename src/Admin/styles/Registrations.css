@@ -1,0 +1,72 @@
+.registrations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.registrations-card {
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.table-controls {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.registrations-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.registrations-table th {
+    padding: 1rem 1.5rem;
+    background-color: var(--bg-color);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.registrations-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 0.9rem;
+}
+
+.registrations-table tr:hover {
+    background-color: var(--bg-color);
+}
+
+.status-badge {
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-badge.confirmed {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge.cancelled {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+.status-badge.pending {
+    background-color: rgba(245, 158, 11, 0.14);
+    color: var(--warning-color);
+}

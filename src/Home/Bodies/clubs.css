@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main{
+    justify-content: center;
+    align-items: center;
+}
+.bodies{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.bodies .logos{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.bodies .logos img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 1px solid black;
+} 
+.bodies .header h1::after {
+  content: "";
+  width: 70%;
+  height: 4px;
+  background: linear-gradient(to right, #6366f1, #22d3ee);
+  position: absolute;
+  left: 15%;
+  bottom: -8px;
+  border-radius: 10px;
+}
