@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, AlertTriangle } from 'lucide-react';
-// import '../styles/ConfirmationModal.css'; // Deprecated
 
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, type = 'danger' }) => {
     if (!isOpen) return null;
@@ -23,7 +22,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, type = 
                 <div className="sa-modal-footer">
                     <button className="ghost-btn" onClick={onClose}>Cancel</button>
                     <button
-                        className={`primary-btn ${type === 'danger' ? 'danger' : ''}`} // Assuming primary-btn handles general, maybe add danger variant later
+                        className={`primary-btn ${type === 'danger' ? 'danger' : ''}`}
                         style={type === 'danger' ? { background: '#ef4444', boxShadow: 'none' } : {}}
                         onClick={onConfirm}
                     >

@@ -6,25 +6,22 @@ import DashboardChart from '../components/DashboardChart';
 import RecentEventsTable from '../components/RecentEventsTable';
 import Skeleton from '../components/Skeleton';
 import { summaryStats, eventsData } from '../data/dummyData';
-// import '../styles/Dashboard.css'; // Deprecated
 
 const Dashboard = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Simulate loading
         const timer = setTimeout(() => {
             setLoading(false);
         }, 1000);
         return () => clearTimeout(timer);
     }, []);
 
-    // Get latest 5 events
     const recentEvents = eventsData.slice(0, 5);
 
     if (loading) {
         return (
-            <div className="sa-dashboard-main"> {/* Use sa-dashboard-main even for skeleton */}
+            <div className="sa-dashboard-main">
                 <div className="sa-stats-grid">
                     {[1, 2, 3, 4].map(i => (
                         <Skeleton key={i} height="120px" borderRadius="16px" />
@@ -39,12 +36,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="sa-dashboard-content"> {/* sa-dashboard-main is already in Layout, so we can just use a wrapper or fragments */}
-            {/* 
-                Wait, Layout has <main className="sa-dashboard-main"><Outlet/></main>
-                So this component content goes INSIDE sa-dashboard-main.
-                We don't need another sa-dashboard-main here.
-             */}
+        <div className="sa-dashboard-content">
 
             <section className="sa-welcome-card glass hover-gradient-border">
                 <div>
@@ -101,7 +93,6 @@ const Dashboard = () => {
                     <div className="sa-card-header">
                         <h3>Analytics</h3>
                     </div>
-                    {/* DashboardChart might need styling updates too, but let's wrap it in sa-card for now */}
                     <DashboardChart />
                 </div>
                 <div className="events-section">

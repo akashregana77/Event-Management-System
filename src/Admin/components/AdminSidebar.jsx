@@ -11,7 +11,6 @@ import {
     Settings,
     LogOut,
 } from 'lucide-react';
-// import '../styles/Sidebar.css'; // Deprecated
 
 const AdminSidebar = ({ isOpen, closeSidebar }) => {
     const menuItems = [
@@ -27,16 +26,12 @@ const AdminSidebar = ({ isOpen, closeSidebar }) => {
 
     return (
         <aside className={`sa-sidebar ${isOpen ? 'open' : ''}`}>
-            {/* Brand was moved to Navbar in SuperAdmin design */}
 
             <nav>
                 {menuItems.map((item) => (
                     <NavLink
                         key={item.path}
                         to={item.path}
-                        // 'active' class is handled by NavLink automatically, 
-                        // but sa-nav-link expects 'active' class. 
-                        // NavLink adds 'active' class by default to the element when active.
                         className={({ isActive }) => `sa-nav-link ${isActive ? 'active' : ''}`}
                         onClick={() => window.innerWidth < 900 && closeSidebar()}
                     >

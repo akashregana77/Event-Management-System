@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Eye, Edit, Trash2 } from 'lucide-react';
 import { eventsData } from '../data/dummyData';
-// import '../styles/ManageEvents.css'; // Deprecated
 
 const ManageEvents = () => {
     const [searchTerm, setSearchTerm] = useState('');

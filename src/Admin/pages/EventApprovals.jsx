@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { Check, X as XIcon } from 'lucide-react';
-// import ConfirmationModal from '../components/ConfirmationModal'; // Keep or refactor later
-// import '../styles/EventApprovals.css'; // Deprecated
-
-// Mocking confirmation for now or we can use the existing modal if it doesn't break styles too much.
-// For the purpose of "UI like superadmin", let's focus on the list style.
 
 const EventApprovals = () => {
-    // Dummy Data if not imported
     const eventsData = [
         { id: 101, title: 'Tech Talk 2024', date: '2024-03-15', organizer: 'IEEE', description: 'Annual tech symposium.', status: 'Pending' },
         { id: 102, title: 'Cultural Night', date: '2024-04-20', organizer: 'Cultural Club', description: 'Music and dance performances.', status: 'Pending' },

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Upload } from 'lucide-react';
-// import '../styles/CreateEvent.css'; // Deprecated
 
 const CreateEvent = () => {
     const [formData, setFormData] = useState({
@@ -20,7 +19,6 @@ const CreateEvent = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        // Clear error when typing
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
@@ -51,7 +49,6 @@ const CreateEvent = () => {
         if (validate()) {
             alert('Event Created Successfully! (Dummy Action)');
             console.log('Form Submitted', formData);
-            // Reset form
             setFormData({
                 title: '',
                 description: '',

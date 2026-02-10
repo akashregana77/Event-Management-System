@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./AdminSidebar";
 import Navbar from "./Navbar";
-import "../styles/AdminTheme.css"; // Import the unification theme
+import "../styles/AdminTheme.css";
 
 const Layout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

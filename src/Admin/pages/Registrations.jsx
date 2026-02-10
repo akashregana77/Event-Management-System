@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Download, Search } from 'lucide-react';
 import { recentRegistrations } from '../data/dummyData';
-// import '../styles/Registrations.css'; // Deprecated
 
 const Registrations = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Generating more dummy data for demonstration
     const [registrations] = useState([
         ...recentRegistrations,
         { id: 105, studentName: "Alice Cooper", rollNo: "CS21099", eventName: "Robotics Workshop", date: "2026-01-08", status: "Confirmed" },

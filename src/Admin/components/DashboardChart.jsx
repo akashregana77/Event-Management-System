@@ -1,8 +1,6 @@
 import React from 'react';
-// import '../styles/DashboardChart.css'; // Deprecated
 
 const DashboardChart = () => {
-    // Dummy data for monthly events
     const data = [
         { label: 'Jan', value: 4 },
         { label: 'Feb', value: 2 },
@@ -14,8 +12,6 @@ const DashboardChart = () => {
 
     const maxValue = Math.max(...data.map(d => d.value));
 
-    // Refactored to match SuperAdmin simple styling or just keep bar chart but standardise container
-    // We'll keep the logic but remove the card wrapper and title as they are in Dashboard.jsx now
     return (
         <div style={{ padding: '20px', display: 'flex', alignItems: 'flex-end', gap: '20px', height: '250px' }}>
             {data.map((item, index) => (
