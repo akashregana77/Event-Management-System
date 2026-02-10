@@ -1,15 +1,22 @@
 import React from 'react';
-import '../styles/StatCard.css';
+// import '../styles/StatCard.css'; // Deprecated
 
-const StatCard = ({ title, value, icon, color }) => {
+const StatCard = ({ title, value, icon, tone = "primary", subtitle = "Overview" }) => {
     return (
-        <div className="stat-card">
-            <div className="stat-icon" style={{ backgroundColor: `${color}20`, color: color }}>
+        <div className={`sa-stat-card ${tone} hover-gradient-border`}>
+            <div className="sa-stat-icon">
+                {/* 
+                   SuperAdmin uses <i> with font-awesome classes. 
+                   Admin uses lucide-react components passed as 'icon' prop.
+                   We can just render the icon component directly.
+                   sa-stat-icon styles (grid place-items center) should center it correctly.
+                */}
                 {icon}
             </div>
-            <div className="stat-info">
-                <h3 className="stat-value">{value}</h3>
-                <p className="stat-title">{title}</p>
+            <div>
+                <p className="sa-stat-title">{title}</p>
+                <h3 className="sa-stat-value">{value}</h3>
+                <p className="sa-stat-subtitle">{subtitle}</p>
             </div>
         </div>
     );

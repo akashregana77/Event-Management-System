@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Filter, Eye, Edit, Trash2 } from 'lucide-react';
 import { eventsData } from '../data/dummyData';
-import '../styles/ManageEvents.css';
+// import '../styles/ManageEvents.css'; // Deprecated
 
 const ManageEvents = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,93 +22,135 @@ const ManageEvents = () => {
     });
 
     return (
-        <div className="manage-events-container">
-            <div className="page-header">
-                <h2 className="page-title">Manage Events</h2>
-                <button className="btn btn-primary">Create New Event</button>
+        <div className="sa-dashboard-content">
+            <div className="sa-card-header" style={{ marginBottom: '24px' }}>
+                <h2 style={{ fontSize: '24px', fontWeight: '800' }}>Manage Events</h2>
+                <button className="primary-btn">
+                    <i className="fa-solid fa-plus" style={{ marginRight: '8px' }}></i>
+                    Create New Event
+                </button>
             </div>
 
-            <div className="controls-bar card">
-                <div className="search-box">
-                    <Search size={20} className="search-icon" />
-                    <input
-                        type="text"
-                        placeholder="Search events..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+            <div className="sa-card glass" style={{ marginBottom: '20px', padding: '16px' }}>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                    <div className="search-box" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--border)',
+                        padding: '8px 12px',
+                        borderRadius: '10px',
+                        flex: 1,
+                        maxWidth: '400px'
+                    }}>
+                        <Search size={18} color="var(--muted)" />
+                        <input
+                            type="text"
+                            placeholder="Search events..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{
+                                border: 'none',
+                                outline: 'none',
+                                background: 'transparent',
+                                width: '100%',
+                                color: 'var(--text)',
+                                fontSize: '14px'
+                            }}
+                        />
+                    </div>
 
-                <div className="filter-box">
-                    <Filter size={20} className="filter-icon" />
-                    <select
-                        value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
-                    >
-                        <option value="All">All Status</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Rejected">Rejected</option>
-                    </select>
+                    <div className="filter-box" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--border)',
+                        padding: '8px 12px',
+                        borderRadius: '10px'
+                    }}>
+                        <Filter size={18} color="var(--muted)" />
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            style={{
+                                border: 'none',
+                                outline: 'none',
+                                background: 'transparent',
+                                color: 'var(--text)',
+                                fontSize: '14px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <option value="All">All Status</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div className="events-table-container card">
-                <table className="events-table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Date & Time</th>
-                            <th>Venue</th>
-                            <th>Organizer</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredEvents.length > 0 ? (
-                            filteredEvents.map(event => (
-                                <tr key={event.id}>
-                                    <td className="font-medium">{event.title}</td>
-                                    <td>
-                                        <div className="datetime">
-                                            <span>{event.date}</span>
-                                            <small>{event.time}</small>
-                                        </div>
-                                    </td>
-                                    <td>{event.venue}</td>
-                                    <td>{event.organizer}</td>
-                                    <td>
-                                        <span className={`status-badge ${event.status.toLowerCase()}`}>
-                                            {event.status}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div className="actions">
-                                            <button className="icon-btn view" title="View">
-                                                <Eye size={18} />
-                                            </button>
-                                            <button className="icon-btn edit" title="Edit">
-                                                <Edit size={18} />
-                                            </button>
-                                            <button
-                                                className="icon-btn delete"
-                                                title="Delete"
-                                                onClick={() => handleDelete(event.id)}
-                                            >
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
+            <div className="sa-card glass">
+                <div className="sa-table-wrapper">
+                    <table className="sa-data-table">
+                        <thead>
                             <tr>
-                                <td colSpan="6" className="no-data">No events found</td>
+                                <th>Title</th>
+                                <th>Date & Time</th>
+                                <th>Venue</th>
+                                <th>Organizer</th>
+                                <th>Status</th>
+                                <th className="sa-text-right">Actions</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredEvents.length > 0 ? (
+                                filteredEvents.map((event, idx) => (
+                                    <tr key={event.id} className="hover-row animate-stagger" style={{ animationDelay: `${idx * 50}ms` }}>
+                                        <td style={{ fontWeight: '600' }}>{event.title}</td>
+                                        <td>
+                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                <span>{event.date}</span>
+                                                <small className="sa-muted" style={{ fontSize: '12px' }}>{event.time}</small>
+                                            </div>
+                                        </td>
+                                        <td>{event.venue}</td>
+                                        <td>{event.organizer}</td>
+                                        <td>
+                                            <span className={`sa-tag ${event.status === 'Approved' ? 'sa-tag-open' : event.status === 'Pending' ? 'sa-tag-closed' : ''}`}>
+                                                {event.status}
+                                            </span>
+                                        </td>
+                                        <td className="sa-text-right">
+                                            <div className="sa-table-actions">
+                                                <button className="ghost-btn sa-compact" title="View">
+                                                    <Eye size={16} />
+                                                </button>
+                                                <button className="ghost-btn sa-compact" title="Edit">
+                                                    <Edit size={16} />
+                                                </button>
+                                                <button
+                                                    className="ghost-btn sa-compact"
+                                                    title="Delete"
+                                                    onClick={() => handleDelete(event.id)}
+                                                    style={{ color: '#ef4444', borderColor: '#fee2e2', background: '#fef2f2' }}
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6" style={{ textAlign: 'center', padding: '30px', color: 'var(--muted)' }}>No events found</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

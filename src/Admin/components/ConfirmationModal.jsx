@@ -1,29 +1,30 @@
 import React from 'react';
 import { X, AlertTriangle } from 'lucide-react';
-import '../styles/ConfirmationModal.css';
+// import '../styles/ConfirmationModal.css'; // Deprecated
 
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, type = 'danger' }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-container">
-                <div className="modal-header">
-                    <h3 className="modal-title">
-                        <AlertTriangle className={`modal-icon ${type}`} size={20} />
+        <div className="sa-modal-overlay">
+            <div className="sa-modal-container">
+                <div className="sa-modal-header">
+                    <h3 className="sa-modal-title">
+                        <AlertTriangle className={`sa-modal-icon ${type}`} size={20} />
                         {title}
                     </h3>
-                    <button className="close-btn" onClick={onClose}>
+                    <button className="sa-close-btn" onClick={onClose}>
                         <X size={20} />
                     </button>
                 </div>
-                <div className="modal-body">
+                <div className="sa-modal-body">
                     <p>{message}</p>
                 </div>
-                <div className="modal-footer">
-                    <button className="btn btn-outline" onClick={onClose}>Cancel</button>
+                <div className="sa-modal-footer">
+                    <button className="ghost-btn" onClick={onClose}>Cancel</button>
                     <button
-                        className={`btn ${type === 'danger' ? 'btn-danger' : 'btn-primary'}`}
+                        className={`primary-btn ${type === 'danger' ? 'danger' : ''}`} // Assuming primary-btn handles general, maybe add danger variant later
+                        style={type === 'danger' ? { background: '#ef4444', boxShadow: 'none' } : {}}
                         onClick={onConfirm}
                     >
                         Confirm

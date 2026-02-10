@@ -1,23 +1,40 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import Sidebar from './AdminSidebar';
-import Navbar from './Navbar';
-import '../styles/Layout.css';
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./AdminSidebar";
+import Navbar from "./Navbar";
+import "../styles/AdminTheme.css"; // Import the unification theme
 
 const Layout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [theme, setTheme] = useState(() => localStorage.getItem("admin-theme") || "light");
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-    const closeSidebar = () => setSidebarOpen(false);
+    useEffect(() => {
+        const isDark = theme === "dark";
+        document.body.classList.toggle("theme-dark", isDark);
+        localStorage.setItem("admin-theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
     return (
-        <div className="layout">
-            <Sidebar isOpen={sidebarOpen} closeSidebar={closeSidebar} />
+        <div className="sa-page">
+            <Navbar
+                toggleSidebar={() => setSidebarOpen((prev) => !prev)}
+                sidebarOpen={sidebarOpen}
+                theme={theme}
+                toggleTheme={toggleTheme}
+            />
 
-            <div className="main-content">
-                <Navbar toggleSidebar={toggleSidebar} />
-                <main className="content-area">
-                    <Outlet />
+            <div className="sa-dashboard-layout">
+                <Sidebar
+                    isOpen={sidebarOpen}
+                    closeSidebar={() => setSidebarOpen(false)}
+                />
+
+                {sidebarOpen && <div className="sa-backdrop" onClick={() => setSidebarOpen(false)}></div>}
+
+                <main className="sa-dashboard-main">
+                    <Outlet context={{ theme }} />
                 </main>
             </div>
         </div>

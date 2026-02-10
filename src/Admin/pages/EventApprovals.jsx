@@ -1,87 +1,86 @@
 import React, { useState } from 'react';
 import { Check, X as XIcon } from 'lucide-react';
-import ConfirmationModal from '../components/ConfirmationModal';
-import { eventsData } from '../data/dummyData';
-import '../styles/EventApprovals.css';
+// import ConfirmationModal from '../components/ConfirmationModal'; // Keep or refactor later
+// import '../styles/EventApprovals.css'; // Deprecated
+
+// Mocking confirmation for now or we can use the existing modal if it doesn't break styles too much.
+// For the purpose of "UI like superadmin", let's focus on the list style.
 
 const EventApprovals = () => {
-    const [pendingEvents, setPendingEvents] = useState(
-        eventsData.filter(e => e.status === 'Pending')
-    );
+    // Dummy Data if not imported
+    const eventsData = [
+        { id: 101, title: 'Tech Talk 2024', date: '2024-03-15', organizer: 'IEEE', description: 'Annual tech symposium.', status: 'Pending' },
+        { id: 102, title: 'Cultural Night', date: '2024-04-20', organizer: 'Cultural Club', description: 'Music and dance performances.', status: 'Pending' },
+    ];
 
-    const [modalState, setModalState] = useState({
-        isOpen: false,
-        eventId: null,
-        action: null // 'approve' or 'reject'
-    });
+    const [pendingEvents, setPendingEvents] = useState(eventsData);
 
-    const openModal = (id, action) => {
-        setModalState({ isOpen: true, eventId: id, action });
-    };
+    const handleApprove = (id) => {
+        if (window.confirm("Approve this event?")) {
+            setPendingEvents(prev => prev.filter(e => e.id !== id));
+        }
+    }
 
-    const closeModal = () => {
-        setModalState({ isOpen: false, eventId: null, action: null });
-    };
-
-    const handleConfirm = () => {
-        // In a real app, API call here
-        // For now, remove from the list
-        setPendingEvents(prev => prev.filter(e => e.id !== modalState.eventId));
-        closeModal();
-        // Use setTimeout to ensure closing animation finishes or just simple alert
-        // alert(`Event ${modalState.action}ed successfully!`);
-    };
+    const handleReject = (id) => {
+        if (window.confirm("Reject this event?")) {
+            setPendingEvents(prev => prev.filter(e => e.id !== id));
+        }
+    }
 
     return (
-        <div className="approvals-container">
-            <h2 className="page-title">Pending Approvals</h2>
+        <div className="sa-dashboard-content">
+            <div className="sa-card-header" style={{ marginBottom: '24px' }}>
+                <h2 style={{ fontSize: '24px', fontWeight: '800' }}>Event Approvals</h2>
+            </div>
 
-            <div className="approvals-list-card card">
+            <div className="sa-card glass">
+                <div className="sa-card-header">
+                    <h3>Pending Requests</h3>
+                    <span className="sa-pill sa-pill-primary">{pendingEvents.length} Pending</span>
+                </div>
+
                 {pendingEvents.length > 0 ? (
-                    <div className="approvals-list">
-                        {pendingEvents.map(event => (
-                            <div key={event.id} className="approval-item">
-                                <div className="event-info">
-                                    <h3 className="event-title">{event.title}</h3>
-                                    <div className="event-meta">
-                                        <span>{event.date}</span> • <span>{event.organizer}</span>
+                    <div className="sa-list">
+                        {pendingEvents.map((event, idx) => (
+                            <div key={event.id} className="sa-list-item hover-card animate-stagger" style={{ animationDelay: `${idx * 100}ms` }}>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                        <p className="sa-list-title" style={{ fontSize: '16px' }}>{event.title}</p>
+                                        <span className="sa-tag sa-tag-closed" style={{ background: '#fff7ed', color: '#c2410c', borderColor: '#ffedd5' }}>Pending Review</span>
                                     </div>
-                                    <p className="event-desc">{event.description}</p>
+                                    <p className="sa-muted" style={{ fontSize: '13px', marginBottom: '8px' }}>
+                                        {event.date} • <span style={{ color: 'var(--brand)', fontWeight: '600' }}>{event.organizer}</span>
+                                    </p>
+                                    <p style={{ fontSize: '14px', color: 'var(--text)', opacity: 0.9 }}>{event.description}</p>
                                 </div>
-                                <div className="approval-actions">
+
+                                <div className="sa-table-actions" style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
                                     <button
-                                        className="action-btn reject"
-                                        onClick={() => openModal(event.id, 'reject')}
+                                        className="primary-btn sa-compact"
+                                        onClick={() => handleApprove(event.id)}
+                                        title="Approve"
+                                        style={{ background: 'linear-gradient(135deg, #10b981, #059669)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)' }}
                                     >
-                                        <XIcon size={18} />
-                                        Reject
+                                        <Check size={16} /> Approve
                                     </button>
                                     <button
-                                        className="action-btn approve"
-                                        onClick={() => openModal(event.id, 'approve')}
+                                        className="ghost-btn sa-compact"
+                                        onClick={() => handleReject(event.id)}
+                                        title="Reject"
+                                        style={{ color: '#ef4444', borderColor: '#fee2e2' }}
                                     >
-                                        <Check size={18} />
-                                        Approve
+                                        <XIcon size={16} /> Reject
                                     </button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="empty-state">
-                        <p>No pending approvals found.</p>
+                    <div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)' }}>
+                        <p>No pending approvals. great job!</p>
                     </div>
                 )}
             </div>
-
-            <ConfirmationModal
-                isOpen={modalState.isOpen}
-                onClose={closeModal}
-                onConfirm={handleConfirm}
-                title={modalState.action === 'approve' ? 'Approve Event' : 'Reject Event'}
-                message={`Are you sure you want to ${modalState.action} this event? This action cannot be undone.`}
-                type={modalState.action === 'approve' ? 'success' : 'danger'}
-            />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Download, Search } from 'lucide-react';
 import { recentRegistrations } from '../data/dummyData';
-import '../styles/Registrations.css';
+// import '../styles/Registrations.css'; // Deprecated
 
 const Registrations = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -25,30 +25,50 @@ const Registrations = () => {
     );
 
     return (
-        <div className="registrations-container">
-            <div className="page-header">
-                <h2 className="page-title">Registrations</h2>
-                <button className="btn btn-outline export-btn" onClick={handleExport}>
+        <div className="sa-dashboard-content">
+            <div className="sa-card-header" style={{ marginBottom: '24px' }}>
+                <h2 style={{ fontSize: '24px', fontWeight: '800' }}>Registrations</h2>
+                <button className="ghost-btn" onClick={handleExport}>
                     <Download size={18} />
                     Export CSV
                 </button>
             </div>
 
-            <div className="registrations-card card">
-                <div className="table-controls">
-                    <div className="search-box">
-                        <Search size={20} className="search-icon" />
+            <div className="sa-card glass" style={{ marginBottom: '20px', padding: '16px' }}>
+                <div style={{ display: 'flex', gap: '16px' }}>
+                    <div className="search-box" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--border)',
+                        padding: '8px 12px',
+                        borderRadius: '10px',
+                        flex: 1,
+                        maxWidth: '400px'
+                    }}>
+                        <Search size={18} color="var(--muted)" />
                         <input
                             type="text"
                             placeholder="Search by student, roll no, or event..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{
+                                border: 'none',
+                                outline: 'none',
+                                background: 'transparent',
+                                width: '100%',
+                                color: 'var(--text)',
+                                fontSize: '14px'
+                            }}
                         />
                     </div>
                 </div>
+            </div>
 
-                <div className="table-responsive">
-                    <table className="registrations-table">
+            <div className="sa-card glass">
+                <div className="sa-table-wrapper">
+                    <table className="sa-data-table">
                         <thead>
                             <tr>
                                 <th>Student Name</th>
@@ -60,14 +80,14 @@ const Registrations = () => {
                         </thead>
                         <tbody>
                             {filteredData.length > 0 ? (
-                                filteredData.map(reg => (
-                                    <tr key={reg.id}>
-                                        <td className="font-medium">{reg.studentName}</td>
+                                filteredData.map((reg, idx) => (
+                                    <tr key={reg.id} className="hover-row animate-stagger" style={{ animationDelay: `${idx * 50}ms` }}>
+                                        <td style={{ fontWeight: '600' }}>{reg.studentName}</td>
                                         <td>{reg.rollNo}</td>
                                         <td>{reg.eventName}</td>
                                         <td>{reg.date}</td>
                                         <td>
-                                            <span className={`status-badge ${reg.status.toLowerCase()}`}>
+                                            <span className={`sa-tag ${reg.status === 'Confirmed' ? 'sa-tag-open' : reg.status === 'Cancelled' ? 'sa-tag-closed' : ''}`}>
                                                 {reg.status}
                                             </span>
                                         </td>
@@ -75,7 +95,7 @@ const Registrations = () => {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5" className="no-data">No registrations found</td>
+                                    <td colSpan="5" style={{ textAlign: 'center', padding: '30px', color: 'var(--muted)' }}>No registrations found</td>
                                 </tr>
                             )}
                         </tbody>

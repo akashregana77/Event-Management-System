@@ -10,9 +10,8 @@ import {
     FileBarChart,
     Settings,
     LogOut,
-    GraduationCap
 } from 'lucide-react';
-import '../styles/Sidebar.css';
+// import '../styles/Sidebar.css'; // Deprecated
 
 const AdminSidebar = ({ isOpen, closeSidebar }) => {
     const menuItems = [
@@ -27,42 +26,33 @@ const AdminSidebar = ({ isOpen, closeSidebar }) => {
     ];
 
     return (
-        <>
-            <div
-                className={`sidebar-overlay ${isOpen ? 'visible' : ''}`}
-                onClick={closeSidebar}
-            />
-            <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-                <div className="sidebar-header">
-                    <div className="brand">
-                        <GraduationCap size={28} />
-                        <span>GMRIT Events</span>
-                    </div>
-                </div>
+        <aside className={`sa-sidebar ${isOpen ? 'open' : ''}`}>
+            {/* Brand was moved to Navbar in SuperAdmin design */}
 
-                <ul className="sidebar-menu">
-                    {menuItems.map((item) => (
-                        <li key={item.path} className="menu-item">
-                            <NavLink
-                                to={item.path}
-                                className={({ isActive }) => (isActive ? 'active' : '')}
-                                onClick={() => window.innerWidth < 768 && closeSidebar()}
-                            >
-                                {item.icon}
-                                <span>{item.label}</span>
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
+            <nav>
+                {menuItems.map((item) => (
+                    <NavLink
+                        key={item.path}
+                        to={item.path}
+                        // 'active' class is handled by NavLink automatically, 
+                        // but sa-nav-link expects 'active' class. 
+                        // NavLink adds 'active' class by default to the element when active.
+                        className={({ isActive }) => `sa-nav-link ${isActive ? 'active' : ''}`}
+                        onClick={() => window.innerWidth < 900 && closeSidebar()}
+                    >
+                        {item.icon}
+                        {item.label}
+                    </NavLink>
+                ))}
+            </nav>
 
-                <div className="sidebar-footer">
-                    <button className="logout-btn">
-                        <LogOut size={20} />
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </aside>
-        </>
+            <div style={{ marginTop: 'auto' }}>
+                <button className="sa-nav-link" type="button">
+                    <LogOut size={20} />
+                    Logout
+                </button>
+            </div>
+        </aside>
     );
 };
 
