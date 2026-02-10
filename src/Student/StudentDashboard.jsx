@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import StudentNavbar from "./StudentNavbar";
+import SharedNavbar from "../components/SharedNavbar";
 import "./dashboard.css";
 
 const announcements = [];
@@ -59,11 +59,12 @@ export default function StudentDashboard() {
   return (
     <div className="page">
       <div className="navbar-shell">
-        <StudentNavbar
+        <SharedNavbar
+          role="Student"
           theme={theme}
-          onToggleTheme={toggleTheme}
+          toggleTheme={toggleTheme}
+          toggleSidebar={() => setSidebarOpen((s) => !s)}
           sidebarOpen={sidebarOpen}
-          onToggleSidebar={() => setSidebarOpen((s) => !s)}
         />
       </div>
 
@@ -189,9 +190,8 @@ export default function StudentDashboard() {
                       <td className="hide-sm muted">{reg.registeredOn}</td>
                       <td>
                         <span
-                          className={`status-badge ${
-                            reg.status === "registered" ? "success" : "neutral"
-                          }`}
+                          className={`status-badge ${reg.status === "registered" ? "success" : "neutral"
+                            }`}
                         >
                           {reg.status.charAt(0).toUpperCase() + reg.status.slice(1)}
                         </span>

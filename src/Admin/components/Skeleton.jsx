@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/Skeleton.css';
 
 const Skeleton = ({ width, height, borderRadius, style, className }) => {
     return (

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import SharedNavbar from "../components/SharedNavbar";
 import "./SuperAdmindashboard.css";
 
 const navItems = [
@@ -66,46 +67,13 @@ export default function SuperAdminDashboard() {
 
 	return (
 		<div className="sa-page">
-			<header className="sa-navbar">
-				<div className="sa-nav-left">
-					<button
-						type="button"
-						className="sa-icon-button sa-only-mobile"
-						aria-label="Toggle sidebar"
-						onClick={() => setSidebarOpen((s) => !s)}
-					>
-						<i className={`fa-solid ${sidebarOpen ? "fa-xmark" : "fa-bars"}`}></i>
-					</button>
-					<i className="fa-solid fa-graduation-cap sa-logo"></i>
-					<p className="sa-brand">
-						GMRIT<span>Events</span>
-					</p>
-					<span className="sa-pill">Super Admin</span>
-				</div>
-
-				<div className="sa-nav-right">
-					<div className="sa-theme-toggle">
-						<button
-							type="button"
-							aria-label="Toggle color theme"
-							title={theme === "dark" ? "Switch to light" : "Switch to dark"}
-							onClick={toggleTheme}
-						>
-							<i className={theme === "dark" ? "fa-regular fa-sun" : "fa-regular fa-moon"}></i>
-						</button>
-					</div>
-					<div className="sa-icon-button-wrap">
-						<button type="button" className="sa-icon-button" aria-label="Notifications">
-							<i className="fa-regular fa-bell"></i>
-						</button>
-					</div>
-					<div className="sa-profile">
-						<button type="button" className="sa-icon-button" aria-label="Profile">
-							<i className="fa-solid fa-user-shield"></i>
-						</button>
-					</div>
-				</div>
-			</header>
+			<SharedNavbar
+				role="Super Admin"
+				theme={theme}
+				toggleTheme={toggleTheme}
+				toggleSidebar={() => setSidebarOpen((s) => !s)}
+				sidebarOpen={sidebarOpen}
+			/>
 
 			<div className="sa-dashboard-layout">
 				<aside className={`sa-sidebar ${sidebarOpen ? "open" : ""}`}>

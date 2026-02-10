@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./AdminSidebar";
-import Navbar from "./Navbar";
+import SharedNavbar from "../../components/SharedNavbar";
 import "../styles/AdminTheme.css";
 
 const Layout = () => {
@@ -18,7 +18,8 @@ const Layout = () => {
 
     return (
         <div className="sa-page">
-            <Navbar
+            <SharedNavbar
+                role="Admin"
                 toggleSidebar={() => setSidebarOpen((prev) => !prev)}
                 sidebarOpen={sidebarOpen}
                 theme={theme}

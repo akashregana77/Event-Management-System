@@ -7,7 +7,7 @@ const RecentEventsTable = ({ events }) => {
         <div className="sa-card glass">
             <div className="sa-card-header">
                 <h3>Recent Events</h3>
-                <Link to="/events" className="sa-text-link">View all →</Link>
+                <Link to="/admin/events" className="sa-text-link">View all →</Link>
             </div>
             <div className="sa-table-wrapper">
                 <table className="sa-data-table">

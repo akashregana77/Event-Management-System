@@ -14,14 +14,14 @@ import {
 
 const AdminSidebar = ({ isOpen, closeSidebar }) => {
     const menuItems = [
-        { path: '/', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-        { path: '/events', label: 'Manage Events', icon: <CalendarDays size={20} /> },
-        { path: '/create-event', label: 'Create Event', icon: <PlusCircle size={20} /> },
-        { path: '/approvals', label: 'Event Approvals', icon: <CheckSquare size={20} /> },
-        { path: '/registrations', label: 'Registrations', icon: <Users size={20} /> },
-        { path: '/users', label: 'Users', icon: <UserCog size={20} /> },
-        { path: '/reports', label: 'Reports', icon: <FileBarChart size={20} /> },
-        { path: '/settings', label: 'Settings', icon: <Settings size={20} /> },
+        { path: '/admin', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
+        { path: '/admin/events', label: 'Manage Events', icon: <CalendarDays size={20} /> },
+        { path: '/admin/create-event', label: 'Create Event', icon: <PlusCircle size={20} /> },
+        { path: '/admin/approvals', label: 'Event Approvals', icon: <CheckSquare size={20} /> },
+        { path: '/admin/registrations', label: 'Registrations', icon: <Users size={20} /> },
+        { path: '/admin/users', label: 'Users', icon: <UserCog size={20} /> },
+        { path: '/admin/reports', label: 'Reports', icon: <FileBarChart size={20} /> },
+        { path: '/admin/settings', label: 'Settings', icon: <Settings size={20} /> },
     ];
 
     return (

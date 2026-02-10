@@ -1,7 +1,7 @@
 import React from 'react';
-import { Menu, Bell, Moon, Sun, ChevronDown, GraduationCap } from 'lucide-react';
+import { Menu, Bell, Moon, Sun, GraduationCap, User } from 'lucide-react';
 
-const Navbar = ({ toggleSidebar, sidebarOpen, theme, toggleTheme }) => {
+const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sidebarOpen }) => {
     return (
         <header className="sa-navbar">
             <div className="sa-nav-left">
@@ -17,7 +17,7 @@ const Navbar = ({ toggleSidebar, sidebarOpen, theme, toggleTheme }) => {
                 <p className="sa-brand">
                     GMRIT<span>Events</span>
                 </p>
-                <span className="sa-pill">Admin</span>
+                <span className="sa-pill">{role}</span>
             </div>
 
             <div className="sa-nav-right">
@@ -41,9 +41,7 @@ const Navbar = ({ toggleSidebar, sidebarOpen, theme, toggleTheme }) => {
 
                 <div className="sa-profile">
                     <button type="button" className="sa-icon-button" aria-label="Profile">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span>AD</span>
-                        </div>
+                        <User size={18} />
                     </button>
                 </div>
             </div>
@@ -51,4 +49,4 @@ const Navbar = ({ toggleSidebar, sidebarOpen, theme, toggleTheme }) => {
     );
 };
 
-export default Navbar;
+export default SharedNavbar;

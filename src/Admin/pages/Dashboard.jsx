@@ -44,8 +44,8 @@ const Dashboard = () => {
                     <h2>Welcome back, Admin! 👋</h2>
                     <p className="sa-muted">You have {summaryStats.pendingApprovals} pending approvals to review.</p>
                     <div className="sa-hero-actions">
-                        <Link to="/create-event" className="primary-btn">Create Event</Link>
-                        <Link to="/approvals" className="ghost-btn">View Approvals</Link>
+                        <Link to="/admin/create-event" className="primary-btn">Create Event</Link>
+                        <Link to="/admin/approvals" className="ghost-btn">View Approvals</Link>
                     </div>
                 </div>
                 <div className="sa-hero-badge">

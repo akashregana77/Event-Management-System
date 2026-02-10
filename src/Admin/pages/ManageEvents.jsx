@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Filter, Eye, Edit, Trash2 } from 'lucide-react';
+import { Search, Filter, Eye, Edit, Trash2, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { eventsData } from '../data/dummyData';
 
 const ManageEvents = () => {
@@ -24,10 +25,10 @@ const ManageEvents = () => {
         <div className="sa-dashboard-content">
             <div className="sa-card-header" style={{ marginBottom: '24px' }}>
                 <h2 style={{ fontSize: '24px', fontWeight: '800' }}>Manage Events</h2>
-                <button className="primary-btn">
-                    <i className="fa-solid fa-plus" style={{ marginRight: '8px' }}></i>
+                <Link to="/admin/create-event" className="primary-btn">
+                    <Plus size={18} />
                     Create New Event
-                </button>
+                </Link>
             </div>
 
             <div className="sa-card glass" style={{ marginBottom: '20px', padding: '16px' }}>
