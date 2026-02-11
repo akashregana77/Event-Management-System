@@ -71,7 +71,7 @@ export default function StudentDashboard() {
       <div className="dashboard-layout">
         <Sidebar className={sidebarOpen ? "open" : ""} />
 
-        {sidebarOpen && <div className="backdrop" onClick={() => setSidebarOpen(false)}></div>}
+        <div className={`backdrop ${sidebarOpen ? "visible" : ""}`} onClick={() => setSidebarOpen(false)}></div>
 
         <main className="dashboard-main">
           <section className="welcome-card glass animate-rise hover-gradient-border">

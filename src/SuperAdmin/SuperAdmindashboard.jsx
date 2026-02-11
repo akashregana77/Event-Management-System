@@ -92,7 +92,7 @@ export default function SuperAdminDashboard() {
 					</nav>
 				</aside>
 
-				{sidebarOpen && <div className="sa-backdrop" onClick={() => setSidebarOpen(false)}></div>}
+				<div className={`sa-backdrop ${sidebarOpen ? "visible" : ""}`} onClick={() => setSidebarOpen(false)}></div>
 
 				<main className="sa-dashboard-main">
 					<section id="overview" className="sa-welcome-card glass hover-gradient-border">

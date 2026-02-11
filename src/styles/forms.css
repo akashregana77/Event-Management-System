@@ -1,0 +1,687 @@
+/* ============================================
+   FORM COMPONENTS
+   Modern Form Styling
+   Using Design System Tokens
+   ============================================ */
+
+/* ============================================
+   FORM CONTAINER
+   ============================================ */
+
+.form-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-header {
+  margin-bottom: var(--space-8);
+}
+
+.form-header h2 {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.02em;
+}
+
+body.theme-dark .form-header h2 {
+  color: var(--gray-100);
+}
+
+.form-header p {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+}
+
+/* ============================================
+   FORM CARD
+   ============================================ */
+
+.form-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+body.theme-dark .form-card {
+  background: var(--gray-900);
+  border-color: var(--gray-800);
+}
+
+/* ============================================
+   FORM GRID LAYOUT
+   ============================================ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ============================================
+   LABELS
+   ============================================ */
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+body.theme-dark .form-label {
+  color: var(--gray-300);
+}
+
+.form-label .required {
+  color: var(--error-500);
+}
+
+.form-label .optional {
+  font-weight: 400;
+  color: var(--gray-400);
+  font-size: var(--text-xs);
+}
+
+/* ============================================
+   INPUTS, SELECTS, TEXTAREAS
+   ============================================ */
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  color: var(--gray-900);
+  background: white;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--gray-400);
+}
+
+/* Focus state */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Hover state */
+.form-input:hover:not(:focus),
+.form-select:hover:not(:focus),
+.form-textarea:hover:not(:focus) {
+  border-color: var(--gray-300);
+}
+
+/* Error state */
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+  border-color: var(--error-500);
+  background: rgba(239, 68, 68, 0.02);
+}
+
+.form-input.error:focus,
+.form-select.error:focus,
+.form-textarea.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+/* Success state */
+.form-input.success,
+.form-select.success {
+  border-color: var(--success-500);
+}
+
+/* Disabled state */
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  background: var(--gray-100);
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+/* Dark mode */
+body.theme-dark .form-input,
+body.theme-dark .form-select,
+body.theme-dark .form-textarea {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+  color: var(--gray-100);
+}
+
+body.theme-dark .form-input::placeholder,
+body.theme-dark .form-textarea::placeholder {
+  color: var(--gray-500);
+}
+
+body.theme-dark .form-input:hover:not(:focus),
+body.theme-dark .form-select:hover:not(:focus),
+body.theme-dark .form-textarea:hover:not(:focus) {
+  border-color: var(--gray-600);
+}
+
+body.theme-dark .form-input:focus,
+body.theme-dark .form-select:focus,
+body.theme-dark .form-textarea:focus {
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+/* ============================================
+   SELECT SPECIFIC
+   ============================================ */
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6,9 12,15 18,9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: var(--space-10);
+}
+
+body.theme-dark .form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6,9 12,15 18,9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* ============================================
+   TEXTAREA SPECIFIC
+   ============================================ */
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.form-textarea.no-resize {
+  resize: none;
+}
+
+/* ============================================
+   INPUT WITH ICON
+   ============================================ */
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper .input-icon {
+  position: absolute;
+  left: var(--space-3);
+  color: var(--gray-400);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input-wrapper .input-icon-right {
+  position: absolute;
+  right: var(--space-3);
+  color: var(--gray-400);
+  cursor: pointer;
+  z-index: 1;
+  transition: color 0.2s ease;
+}
+
+.input-wrapper .input-icon-right:hover {
+  color: var(--gray-600);
+}
+
+.input-wrapper .form-input {
+  padding-left: var(--space-10);
+}
+
+.input-wrapper .form-input.has-right-icon {
+  padding-right: var(--space-10);
+}
+
+/* ============================================
+   ERROR MESSAGE
+   ============================================ */
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-1-5);
+  font-size: var(--text-xs);
+  color: var(--error-500);
+  animation: shake 0.4s ease;
+}
+
+.form-error svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* ============================================
+   HELP TEXT
+   ============================================ */
+
+.form-help {
+  margin-top: var(--space-1-5);
+  font-size: var(--text-xs);
+  color: var(--gray-500);
+}
+
+/* ============================================
+   FILE UPLOAD
+   ============================================ */
+
+.file-upload {
+  position: relative;
+}
+
+.file-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+  background: var(--gray-50);
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-upload-area:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-300);
+}
+
+.file-upload-area.dragover {
+  background: var(--primary-50);
+  border-color: var(--primary-500);
+  transform: scale(1.01);
+}
+
+.file-upload-area .upload-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: var(--radius-xl);
+  color: var(--primary-500);
+  box-shadow: var(--shadow-md);
+}
+
+.file-upload-area .upload-text {
+  text-align: center;
+}
+
+.file-upload-area .upload-text p {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+}
+
+.file-upload-area .upload-text span {
+  color: var(--primary-600);
+  font-weight: 600;
+}
+
+.file-upload-area .upload-hint {
+  font-size: var(--text-xs);
+  color: var(--gray-400);
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+body.theme-dark .file-upload-area {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+body.theme-dark .file-upload-area:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--primary-600);
+}
+
+body.theme-dark .file-upload-area .upload-icon {
+  background: var(--gray-700);
+}
+
+/* File preview */
+.file-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-3);
+}
+
+.file-preview img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.file-preview .file-info {
+  flex: 1;
+}
+
+.file-preview .file-name {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.file-preview .file-size {
+  font-size: var(--text-xs);
+  color: var(--gray-500);
+}
+
+.file-preview .remove-file {
+  padding: var(--space-2);
+  background: transparent;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.file-preview .remove-file:hover {
+  background: var(--error-50);
+  color: var(--error-500);
+}
+
+body.theme-dark .file-preview {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+body.theme-dark .file-preview .file-name {
+  color: var(--gray-200);
+}
+
+/* ============================================
+   CHECKBOX & RADIO
+   ============================================ */
+
+.checkbox-wrapper,
+.radio-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.checkbox-wrapper input,
+.radio-wrapper input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkbox-custom,
+.radio-custom {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.radio-custom {
+  border-radius: 50%;
+}
+
+.checkbox-wrapper:hover .checkbox-custom,
+.radio-wrapper:hover .radio-custom {
+  border-color: var(--primary-400);
+}
+
+.checkbox-wrapper input:checked + .checkbox-custom,
+.radio-wrapper input:checked + .radio-custom {
+  background: var(--primary-500);
+  border-color: var(--primary-500);
+}
+
+.checkbox-custom svg {
+  width: 12px;
+  height: 12px;
+  color: white;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+
+.checkbox-wrapper input:checked + .checkbox-custom svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.radio-custom::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.2s ease;
+}
+
+.radio-wrapper input:checked + .radio-custom::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkbox-label,
+.radio-label {
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+
+body.theme-dark .checkbox-custom,
+body.theme-dark .radio-custom {
+  background: var(--gray-800);
+  border-color: var(--gray-600);
+}
+
+body.theme-dark .checkbox-label,
+body.theme-dark .radio-label {
+  color: var(--gray-300);
+}
+
+/* ============================================
+   FORM BUTTONS
+   ============================================ */
+
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--gray-200);
+}
+
+body.theme-dark .form-actions {
+  border-top-color: var(--gray-800);
+}
+
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  background: var(--gradient-primary);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-cancel {
+  padding: var(--space-3) var(--space-6);
+  background: transparent;
+  color: var(--gray-600);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-400);
+}
+
+body.theme-dark .btn-cancel {
+  color: var(--gray-400);
+  border-color: var(--gray-700);
+}
+
+body.theme-dark .btn-cancel:hover {
+  background: var(--gray-800);
+  border-color: var(--gray-600);
+}
+
+/* ============================================
+   FORM DIVIDER
+   ============================================ */
+
+.form-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  color: var(--gray-400);
+  font-size: var(--text-sm);
+}
+
+.form-divider::before,
+.form-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-200);
+}
+
+body.theme-dark .form-divider::before,
+body.theme-dark .form-divider::after {
+  background: var(--gray-800);
+}
+
+/* ============================================
+   FORM SECTIONS
+   ============================================ */
+
+.form-section {
+  margin-bottom: var(--space-8);
+}
+
+.form-section-title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--primary-500);
+  display: inline-block;
+}
+
+body.theme-dark .form-section-title {
+  color: var(--gray-100);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .form-card {
+    padding: var(--space-5);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-submit,
+  .btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+}

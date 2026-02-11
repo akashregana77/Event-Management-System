@@ -32,7 +32,7 @@ const Layout = () => {
                     closeSidebar={() => setSidebarOpen(false)}
                 />
 
-                {sidebarOpen && <div className="sa-backdrop" onClick={() => setSidebarOpen(false)}></div>}
+                <div className={`sa-backdrop ${sidebarOpen ? "visible" : ""}`} onClick={() => setSidebarOpen(false)}></div>
 
                 <main className="sa-dashboard-main">
                     <Outlet context={{ theme }} />

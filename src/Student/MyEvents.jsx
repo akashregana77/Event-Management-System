@@ -50,7 +50,7 @@ export default function MyEvents() {
       <div className="dashboard-layout">
         <Sidebar className={sidebarOpen ? "open" : ""} />
 
-        {sidebarOpen && <div className="backdrop" onClick={() => setSidebarOpen(false)}></div>}
+        <div className={`backdrop ${sidebarOpen ? "visible" : ""}`} onClick={() => setSidebarOpen(false)}></div>
 
         <main className="dashboard-main">
           <header className="section-header">

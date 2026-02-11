@@ -1,10 +1,77 @@
+/* ============================================
+   GRADIENT TEXT ANIMATION
+   Modern Animated Text Effect
+   ============================================ */
+
 .gradient-text {
   background-size: 300% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  animation: gradientMove linear infinite;
+  animation: gradientMove 8s linear infinite;
   font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Default gradient - Primary colors */
+.gradient-text {
+  background-image: linear-gradient(
+    90deg,
+    #6366f1 0%,
+    #8b5cf6 25%,
+    #a855f7 50%,
+    #6366f1 75%,
+    #4f46e5 100%
+  );
+}
+
+/* Variant: Sunset */
+.gradient-text-sunset {
+  background-image: linear-gradient(
+    90deg,
+    #f97316 0%,
+    #ef4444 25%,
+    #ec4899 50%,
+    #f97316 75%,
+    #fbbf24 100%
+  );
+}
+
+/* Variant: Ocean */
+.gradient-text-ocean {
+  background-image: linear-gradient(
+    90deg,
+    #06b6d4 0%,
+    #3b82f6 25%,
+    #6366f1 50%,
+    #06b6d4 75%,
+    #22d3ee 100%
+  );
+}
+
+/* Variant: Nature */
+.gradient-text-nature {
+  background-image: linear-gradient(
+    90deg,
+    #22c55e 0%,
+    #10b981 25%,
+    #14b8a6 50%,
+    #22c55e 75%,
+    #84cc16 100%
+  );
+}
+
+/* Variant: Royal */
+.gradient-text-royal {
+  background-image: linear-gradient(
+    90deg,
+    #8b5cf6 0%,
+    #a855f7 25%,
+    #d946ef 50%,
+    #8b5cf6 75%,
+    #6366f1 100%
+  );
 }
 
 @keyframes gradientMove {
@@ -17,4 +84,14 @@
   100% {
     background-position: 0% 50%;
   }
+}
+
+/* Hover effect */
+.gradient-text:hover {
+  animation-duration: 3s;
+}
+
+/* Dark mode enhancement */
+body.theme-dark .gradient-text {
+  filter: brightness(1.1);
 }

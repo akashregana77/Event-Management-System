@@ -1,74 +1,143 @@
+/* ============================================
+   CARD SWAP ANIMATION
+   Modern 3D Card Stack Effect
+   ============================================ */
+
 .card-swap-container {
   position: relative;
   width: 100%;
   height: 100%;
-  perspective: 900px;
+  perspective: 1200px;
   overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .card-swap-container .card {
   position: absolute;
-  top: 80%;
+  top: 50%;
   left: 50%;
-  border-radius: 14px;
+  width: 280px;
+  height: 180px;
+  border-radius: var(--radius-2xl);
   color: #fff;
-  padding: 22px;
+  padding: var(--space-6);
   text-align: center;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.12);
-  -webkit-font-smoothing:antialiased;
-}
-
-.card-swap-container .card h3,
-.card-swap-container .card p {
-  color: #ffffff;
-  margin: 0;
-}
-
-/* layout inside card: allow content (images + text) to stack */
-.card-swap-container .card {
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  -webkit-font-smoothing: antialiased;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: var(--space-3);
+  transition: box-shadow 0.3s ease;
 }
 
-/* subtle dark overlay for text readability */
-.card-swap-container .card::before{
+.card-swap-container .card:hover {
+  box-shadow: 
+    0 35px 60px -15px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+.card-swap-container .card h3 {
+  color: #ffffff;
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.card-swap-container .card p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+/* Glass overlay for modern look */
+.card-swap-container .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.26));
+  border-radius: var(--radius-2xl);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
   z-index: 0;
+  pointer-events: none;
 }
-.card-swap-container .card > *{ position: relative; z-index: 2 }
+
+.card-swap-container .card > * {
+  position: relative;
+  z-index: 2;
+}
 
 .card-swap-container .card .sub {
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* small photo inside the card (before title) */
-.card-swap-container .card .card-photo{
-  width: 120px;
-  height: 80px;
+/* Card photo styling */
+.card-swap-container .card .card-photo {
+  width: 140px;
+  height: 90px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.12);
-  margin-bottom: 12px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: var(--space-2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Card color variants with improved gradients */
 .card-swap-container .card-blue {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
 }
 
 .card-swap-container .card-orange {
-  background: linear-gradient(135deg, #f97316, #c2410c);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
 }
 
 .card-swap-container .card-red {
-  background: linear-gradient(135deg, #dc2626, #991b1b);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+}
+
+/* Additional card colors */
+.card-swap-container .card-purple {
+  background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7e22ce 100%);
+}
+
+.card-swap-container .card-green {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+}
+
+.card-swap-container .card-pink {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-swap-container .card {
+    width: 240px;
+    height: 160px;
+    padding: var(--space-4);
+  }
+
+  .card-swap-container .card h3 {
+    font-size: var(--text-base);
+  }
+
+  .card-swap-container .card .card-photo {
+    width: 120px;
+    height: 75px;
+  }
 }
