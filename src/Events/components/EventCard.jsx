@@ -1,88 +1,82 @@
 import React from "react";
 import { Calendar, Clock, MapPin, Users, Tag, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-const badgeColors = {
-  Technical: "#D0E7FF", // light blue
-  Cultural: "#D0FFD6",  // light green
-  Workshop: "#FFF3C0",  // light yellow
-  Seminar: "#FFD0D0",   // light red
-};
+import "./EventCard.css";
 
 const EventCard = ({ event }) => {
   const navigate = useNavigate();
-  const spotsLeft = event.capacity - event.registered;
-  const isAlmostFull = spotsLeft <= 5;
+  const spotsLeft = event.capacity - (event.registered || 0);
+  const isAlmostFull = spotsLeft <= 5 && spotsLeft > 0;
+  const capacityPercentage = ((event.registered || 0) / event.capacity) * 100;
 
-  const cardStyle = {
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    padding: "16px",
-    marginBottom: "16px",
-    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-    backgroundColor: "#fff",
-    cursor: "pointer",
+  // Get capacity bar class based on fill level
+  const getCapacityClass = () => {
+    if (capacityPercentage >= 90) return 'full';
+    if (capacityPercentage >= 70) return 'high';
+    return '';
   };
 
-  const badgeStyle = {
-    backgroundColor: badgeColors[event.type],
-    padding: "2px 6px",
-    borderRadius: "4px",
-    fontWeight: "bold",
-    fontSize: "12px",
-  };
-
-  const redBadgeStyle = {
-    backgroundColor: "#FFD0D0",
-    padding: "2px 6px",
-    borderRadius: "4px",
-    fontWeight: "bold",
-    fontSize: "12px",
+  // Get tag class based on event type
+  const getTagClass = () => {
+    const typeMap = {
+      'Technical': 'technical',
+      'Cultural': 'cultural',
+      'Workshop': 'workshop',
+      'Seminar': 'seminar'
+    };
+    return typeMap[event.type] || '';
   };
 
   return (
-    <div style={cardStyle}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-        <span style={badgeStyle}>{event.type}</span>
-        {isAlmostFull && <span style={redBadgeStyle}>{spotsLeft} spots left!</span>}
+    <div className="event-card">
+      <div className="event-card-header">
+        <span className={`event-tag ${getTagClass()}`}>{event.type}</span>
+        {isAlmostFull && (
+          <span className="spots-badge">{spotsLeft} spots left!</span>
+        )}
       </div>
 
-      <h3 style={{ margin: "8px 0" }}>{event.title}</h3>
-      <p style={{ color: "#555", marginBottom: "12px" }}>{event.description}</p>
+      <h3 className="event-title">{event.title}</h3>
+      <p className="event-description">{event.description}</p>
 
-      <div style={{ marginBottom: "12px", color: "#555", fontSize: "14px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <Tag size={16} /> {event.club}
+      <div className="event-meta">
+        <div className="event-meta-item club">
+          <Tag size={16} />
+          <span>{event.club}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <Calendar size={16} /> {event.date}
+        <div className="event-meta-item">
+          <Calendar size={16} />
+          <span>{event.date}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <Clock size={16} /> {event.time}
+        <div className="event-meta-item">
+          <Clock size={16} />
+          <span>{event.time}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <MapPin size={16} /> {event.location}
+        <div className="event-meta-item">
+          <MapPin size={16} />
+          <span>{event.location}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <Users size={16} /> {event.registered} / {event.capacity} registered
+        <div className="event-meta-item">
+          <Users size={16} />
+          <span>{event.registered || 0} / {event.capacity} registered</span>
         </div>
       </div>
+
+      {event.capacity && (
+        <div className="capacity-bar">
+          <div 
+            className={`capacity-fill ${getCapacityClass()}`}
+            style={{ width: `${Math.min(capacityPercentage, 100)}%` }}
+          />
+        </div>
+      )}
 
       <button
+        className="event-btn"
         onClick={() => navigate("/event-details", { state: { event } })}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "4px",
-          padding: "8px 12px",
-          border: "none",
-          borderRadius: "4px",
-          backgroundColor: "#007BFF",
-          color: "#fff",
-          fontWeight: "bold",
-        }}
       >
-        View Details <ArrowRight size={16} />
+        View Details
+        <ArrowRight size={16} />
       </button>
     </div>
   );

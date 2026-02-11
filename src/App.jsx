@@ -8,12 +8,14 @@ import DomeGallery from './Home/globe/DomeGallery';
 import AdminRoutes from './Admin/AdminRoutes';
 import Events from './Events/components/Events';
 import EventDetails from './Events/components/EventDetails';
+import Clubs from './Home/Bodies/clubs';
 function Home() {
   return (
     <>
       <Navbar />
       <Main />
       <DomeGallery />
+      <Clubs />
     </>
   );
 }
