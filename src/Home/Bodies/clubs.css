@@ -11,15 +11,14 @@
 .clubs-section {
   display: flex;
   flex-direction: column;
-  gap: 0;
   background: transparent;
 }
 
 .bodies {
   position: relative;
-  padding: var(--space-16) var(--space-6);
+  padding: var(--space-12) var(--space-6);
   background: transparent;
-  overflow: hidden;
+  overflow: visible;
 }
 
 body.theme-dark .bodies {

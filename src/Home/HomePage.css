@@ -21,7 +21,6 @@
     #f1f5ff 85%,
     #f8fafc 100%
   );
-  overflow: hidden;
 }
 
 body.theme-dark .home-page {
@@ -77,49 +76,14 @@ body.theme-dark .home-page::after {
 }
 
 /* ============================================
-   SECTION COMMON STYLES
-   Each section floats as elevated content
+   SEAMLESS SECTION FLOW
+   Content sits directly on the background
+   like the globe — no boxed sections
    ============================================ */
 
-.home-page > *:not(nav) {
+.home-page > * {
   position: relative;
   z-index: 1;
-}
-
-/* ============================================
-   SECTION DIVIDERS
-   Smooth visual transitions between sections
-   ============================================ */
-
-.home-section-divider {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-4) 0;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.home-section-divider::before {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--brand-200), transparent);
-}
-
-body.theme-dark .home-section-divider::before {
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
-}
-
-.home-section-divider .divider-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--brand-400);
-  border-radius: 50%;
-  margin: 0 var(--space-4);
-  opacity: 0.5;
 }
 
 /* ============================================

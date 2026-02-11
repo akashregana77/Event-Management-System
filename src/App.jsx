@@ -13,18 +13,14 @@ import './Home/HomePage.css';
 
 function Home() {
   return (
-    <div className="home-page">
+    <>
       <Navbar />
-      <Main />
-      <div className="home-section-divider">
-        <span className="divider-dot" />
+      <div className="home-page">
+        <Main />
+        <DomeGallery />
+        <Clubs />
       </div>
-      <DomeGallery />
-      <div className="home-section-divider">
-        <span className="divider-dot" />
-      </div>
-      <Clubs />
-    </div>
+    </>
   );
 }
 

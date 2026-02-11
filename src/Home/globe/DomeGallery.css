@@ -126,8 +126,7 @@ main.sphere-main {
 }
 
 .edge-fade--top {
-  top: 0;
-  transform: rotate(180deg);
+  display: none;
 }
 
 .edge-fade--bottom {
