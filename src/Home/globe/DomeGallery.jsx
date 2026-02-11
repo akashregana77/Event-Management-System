@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
-import EVENTS from './events.json';
+import EVENTS from './events.js';
 
 const DEFAULT_IMAGES = EVENTS;
 
@@ -99,7 +99,7 @@ export default function DomeGallery({
   openedImageHeight = '350px',
   imageBorderRadius = '30px',
   openedImageBorderRadius = '30px',
-  grayscale = true
+  grayscale = false
 }) {
   const rootRef = useRef(null);
   const mainRef = useRef(null);
@@ -336,7 +336,7 @@ export default function DomeGallery({
         infoPanels.forEach(n => {
           try {
             if (n._animTimers && Array.isArray(n._animTimers)) n._animTimers.forEach(t => clearTimeout(t));
-          } catch (e) {}
+          } catch (e) { }
           n.remove();
         });
       }
@@ -515,7 +515,7 @@ export default function DomeGallery({
           infoPanel.innerHTML = `<h3 class="eg-title"></h3><div class="info-body"><span class="typing eg-info"></span></div>`;
           viewerRef.current.appendChild(infoPanel);
 
-         
+
           const animateText = (containerSelector, text, speed = 24) => {
             const el = infoPanel.querySelector(containerSelector);
             if (!el) return;

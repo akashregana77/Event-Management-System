@@ -1,10 +1,12 @@
 import './navbarStyles.css'
 import { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
     const [open, setOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const loginRef = useRef(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -47,11 +49,11 @@ function Navbar() {
             </div>
 
             <div className="nav-center">
-                <button className="nav-btn">
+                <button className="nav-btn" onClick={() => navigate('/') }>
                     <span className='icon'><ion-icon name="home"></ion-icon></span>
                     <span className='text'>Home</span>
                 </button>
-                <button className="nav-btn">
+                <button className="nav-btn" onClick={() => navigate('/events') }>
                     <span className='icon'><i className="fa-solid fa-bullhorn"></i></span>
                     <span className='text'>Events</span>
                 </button>

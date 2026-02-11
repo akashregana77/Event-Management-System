@@ -6,7 +6,8 @@ import Main from './Home/main';
 import Navbar from './Home/navbar';
 import DomeGallery from './Home/globe/DomeGallery';
 import AdminRoutes from './Admin/AdminRoutes';
-
+import Events from './Events/components/Events';
+import EventDetails from './Events/components/EventDetails';
 function Home() {
   return (
     <>
@@ -25,6 +26,8 @@ function App() {
       <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/student/my-events" element={<MyEvents />} />
       <Route path="/superadmin" element={<SuperAdminDashboard />} />
+      <Route path="/events" element={<Events />} />
+      <Route path="/events/:id" element={<EventDetails />} />
     </Routes>
   );
 }

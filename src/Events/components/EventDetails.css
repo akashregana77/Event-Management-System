@@ -1,0 +1,89 @@
+/* Page background */
+.event-details-container {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 60px 16px;
+}
+
+/* Center wrapper */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Card */
+.event-details-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.event-details-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.event-details-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.event-details-club {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* Body */
+.event-details-body {
+  margin-bottom: 32px;
+}
+
+.event-details-description {
+  font-size: 16px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* Info grid */
+.event-details-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.event-details-info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #f9fafb;
+  font-size: 14px;
+  color: #374151;
+}
+
+.event-details-info-item svg {
+  width: 18px;
+  height: 18px;
+  color: #6366f1;
+}
+
+/* Footer */
+.event-details-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+/* Buttons responsive */
+@media (max-width: 640px) {
+  .event-details-footer {
+    flex-direction: column;
+  }
+}
