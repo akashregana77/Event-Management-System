@@ -28,7 +28,7 @@ main.sphere-main {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  background: linear-gradient(to bottom, #ffffff, #eaf6ff);
+  background: transparent;
 }
 
 .stage {
@@ -106,13 +106,13 @@ main.sphere-main {
 }
 
 .overlay {
-  background-image: radial-gradient(rgba(255, 255, 255, 0) 65%, #e6f4ff 100%);
+  background-image: radial-gradient(rgba(255, 255, 255, 0) 65%, rgba(248, 250, 255, 0.85) 100%);
 }
 
 .overlay--blur {
   backdrop-filter: blur(3px);
-  -webkit-mask-image: radial-gradient(rgba(255, 255, 255, 0) 70%, #e6f4ff 90%);
-  mask-image: radial-gradient(rgba(255, 255, 255, 0) 70%, #e6f4ff 90%);
+  -webkit-mask-image: radial-gradient(rgba(255, 255, 255, 0) 70%, rgba(248, 250, 255, 0.9) 90%);
+  mask-image: radial-gradient(rgba(255, 255, 255, 0) 70%, rgba(248, 250, 255, 0.9) 90%);
 }
 
 .edge-fade {
@@ -122,7 +122,7 @@ main.sphere-main {
   height: 120px;
   z-index: 5;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, #dff3ff);
+  background: linear-gradient(to bottom, transparent, rgba(238, 242, 255, 0.6));
 }
 
 .edge-fade--top {
@@ -132,6 +132,20 @@ main.sphere-main {
 
 .edge-fade--bottom {
   bottom: 0;
+}
+
+/* Dark mode overlay adjustments */
+body.theme-dark .overlay {
+  background-image: radial-gradient(rgba(0, 0, 0, 0) 65%, rgba(15, 23, 42, 0.85) 100%);
+}
+
+body.theme-dark .overlay--blur {
+  -webkit-mask-image: radial-gradient(rgba(0, 0, 0, 0) 70%, rgba(15, 23, 42, 0.9) 90%);
+  mask-image: radial-gradient(rgba(0, 0, 0, 0) 70%, rgba(15, 23, 42, 0.9) 90%);
+}
+
+body.theme-dark .edge-fade {
+  background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.6));
 }
 
 /* Viewer / Enlarge styles */

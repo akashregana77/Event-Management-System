@@ -1,0 +1,133 @@
+/* ============================================
+   HOME PAGE - Unified Layout
+   Single continuous background with 
+   elevated floating content sections
+   ============================================ */
+
+/* ============================================
+   UNIFIED BACKGROUND WRAPPER
+   ============================================ */
+
+.home-page {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #f8faff 0%,
+    #eef2ff 15%,
+    #f1f5ff 30%,
+    #f8fafc 50%,
+    #eef2ff 70%,
+    #f1f5ff 85%,
+    #f8fafc 100%
+  );
+  overflow: hidden;
+}
+
+body.theme-dark .home-page {
+  background: linear-gradient(
+    180deg,
+    #0f172a 0%,
+    #1e1b4b 15%,
+    #0f172a 30%,
+    #0c1222 50%,
+    #1e1b4b 70%,
+    #0f172a 85%,
+    #0c1222 100%
+  );
+}
+
+/* Ambient mesh overlay */
+.home-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(99, 102, 241, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 60%, rgba(139, 92, 246, 0.06), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 90%, rgba(236, 72, 153, 0.04), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-dark .home-page::before {
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(99, 102, 241, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 60%, rgba(139, 92, 246, 0.1), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 90%, rgba(236, 72, 153, 0.06), transparent 50%);
+}
+
+/* Subtle grid pattern */
+.home-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-dark .home-page::after {
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+}
+
+/* ============================================
+   SECTION COMMON STYLES
+   Each section floats as elevated content
+   ============================================ */
+
+.home-page > *:not(nav) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   SECTION DIVIDERS
+   Smooth visual transitions between sections
+   ============================================ */
+
+.home-section-divider {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home-section-divider::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-200), transparent);
+}
+
+body.theme-dark .home-section-divider::before {
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+}
+
+.home-section-divider .divider-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--brand-400);
+  border-radius: 50%;
+  margin: 0 var(--space-4);
+  opacity: 0.5;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .home-page {
+    background-size: 100%;
+  }
+}

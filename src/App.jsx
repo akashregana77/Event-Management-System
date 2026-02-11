@@ -9,14 +9,22 @@ import AdminRoutes from './Admin/AdminRoutes';
 import Events from './Events/components/Events';
 import EventDetails from './Events/components/EventDetails';
 import Clubs from './Home/Bodies/clubs';
+import './Home/HomePage.css';
+
 function Home() {
   return (
-    <>
+    <div className="home-page">
       <Navbar />
       <Main />
+      <div className="home-section-divider">
+        <span className="divider-dot" />
+      </div>
       <DomeGallery />
+      <div className="home-section-divider">
+        <span className="divider-dot" />
+      </div>
       <Clubs />
-    </>
+    </div>
   );
 }
 
