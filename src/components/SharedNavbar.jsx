@@ -1,8 +1,13 @@
-import React from 'react';
-import { Menu, Bell, Moon, Sun, GraduationCap, User, Search, ChevronDown } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Menu, Bell, Moon, Sun, GraduationCap, User, Search, ChevronDown, LogOut, Settings, UserCircle } from 'lucide-react';
 import './SharedNavbar.css';
 
 const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sidebarOpen, userName = "User" }) => {
+    const [profileOpen, setProfileOpen] = useState(false);
+    const profileRef = useRef(null);
+    const navigate = useNavigate();
+
     const getRoleBadgeClass = () => {
         switch (role.toLowerCase()) {
             case 'admin': return 'role-admin';
@@ -12,9 +17,23 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
         }
     };
 
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (profileRef.current && !profileRef.current.contains(e.target)) {
+                setProfileOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleLogout = () => {
+        setProfileOpen(false);
+        navigate('/');
+    };
+
     return (
         <header className="shared-navbar">
-            {/* Left Section */}
             <div className="navbar-left">
                 <button
                     type="button"
@@ -41,7 +60,6 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                 </span>
             </div>
 
-            {/* Center Section - Search (optional, hidden on mobile) */}
             <div className="navbar-center">
                 <div className="navbar-search">
                     <Search size={18} className="search-icon" />
@@ -54,9 +72,7 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                 </div>
             </div>
 
-            {/* Right Section */}
             <div className="navbar-right">
-                {/* Theme Toggle */}
                 <button
                     type="button"
                     className="navbar-icon-btn theme-toggle-btn"
@@ -69,7 +85,6 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                     </div>
                 </button>
 
-                {/* Notifications */}
                 <button 
                     type="button" 
                     className="navbar-icon-btn notification-btn" 
@@ -79,9 +94,14 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                     <span className="notification-badge">3</span>
                 </button>
 
-                {/* Profile Dropdown */}
-                <div className="navbar-profile">
-                    <button type="button" className="profile-btn" aria-label="Profile menu">
+                <div className="navbar-profile" ref={profileRef}>
+                    <button 
+                        type="button" 
+                        className={`profile-btn ${profileOpen ? 'active' : ''}`}
+                        onClick={() => setProfileOpen(!profileOpen)}
+                        aria-label="Profile menu"
+                        aria-expanded={profileOpen}
+                    >
                         <div className="profile-avatar">
                             <User size={18} />
                         </div>
@@ -89,8 +109,34 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                             <span className="profile-name">{userName}</span>
                             <span className="profile-role">{role}</span>
                         </div>
-                        <ChevronDown size={16} className="profile-chevron" />
+                        <ChevronDown size={16} className={`profile-chevron ${profileOpen ? 'rotate' : ''}`} />
                     </button>
+
+                    <div className={`profile-dropdown ${profileOpen ? 'show' : ''}`}>
+                        <div className="dropdown-header">
+                            <div className="dropdown-avatar">
+                                <User size={24} />
+                            </div>
+                            <div className="dropdown-user-info">
+                                <span className="dropdown-name">{userName}</span>
+                                <span className="dropdown-email">{userName.toLowerCase().replace(' ', '.')}@gmrit.edu.in</span>
+                            </div>
+                        </div>
+                        <div className="dropdown-divider"></div>
+                        <button type="button" className="dropdown-item">
+                            <UserCircle size={18} />
+                            <span>My Profile</span>
+                        </button>
+                        <button type="button" className="dropdown-item">
+                            <Settings size={18} />
+                            <span>Settings</span>
+                        </button>
+                        <div className="dropdown-divider"></div>
+                        <button type="button" className="dropdown-item logout" onClick={handleLogout}>
+                            <LogOut size={18} />
+                            <span>Logout</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>

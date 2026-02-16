@@ -183,55 +183,69 @@ body.theme-dark .nav-btn.active {
   gap: 16px;
 }
 
-/* Login Dropdown Container */
-.login {
-  position: relative;
-  z-index: 100001;
-}
-
 .login-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 18px;
+  padding: 12px 22px;
   background: white;
   border: 2px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 14px;
   font-weight: 600;
   color: #475569;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
 }
 
-.login-btn:hover {
+.login-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.login-btn:hover,
+.login-btn:hover p {
   border-color: #6366f1;
-  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
-  color: #6366f1;
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+}
+
+.login-btn:hover::before {
+  opacity: 1;
+}
+
+.login-btn i,
+.login-btn span {
+  position: relative;
+  z-index: 1;
 }
 
 .login-btn i {
-  font-size: 14px;
+  font-size: 15px;
   transition: transform 0.3s ease;
 }
 
-.login-btn i.fa-chevron-down {
-  font-size: 10px;
+.login-btn:hover i {
+  transform: translateX(-2px);
 }
 
 body.theme-dark .login-btn {
-  background: #1e293b;
-  border-color: #334155;
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.3);
   color: #cbd5e1;
 }
 
 body.theme-dark .login-btn:hover {
   border-color: #818cf8;
-  background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
-  color: #c7d2fe;
+  color: white;
 }
 
 /* Dropdown Menu */

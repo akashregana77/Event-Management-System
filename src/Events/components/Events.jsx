@@ -65,12 +65,17 @@ export default function Events() {
           <SearchBar value={search} onChange={setSearch} />
 
           <div className="events-grid">
-            {filteredEvents.map(event => {
+            {filteredEvents.map((event, index) => {
               const { percentage, spotsLeft, isAlmostFull } = getCapacityInfo(event);
               const capacityClass = percentage >= 90 ? 'full' : percentage >= 70 ? 'high' : '';
 
               return (
-                <div className="event-card" key={event.id}>
+                <div 
+                  className="event-card" 
+                  key={event.id}
+                  style={{ '--card-index': index }}
+                >
+                  <div className="shimmer-effect" />
                   <div className="event-card-header">
                     <span className={`tag ${getTagClass(event.type)}`}>{event.type}</span>
                     {isAlmostFull && (

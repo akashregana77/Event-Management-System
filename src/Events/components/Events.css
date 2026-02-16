@@ -136,42 +136,70 @@ body.theme-dark .filters select {
   flex-direction: column;
   gap: var(--space-4);
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-/* Premium gradient accent on hover */
 .event-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: var(--gradient-primary);
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-500) 0%, var(--accent-violet) 50%, var(--accent-cyan) 100%);
   opacity: 0;
-  transition: opacity var(--transition-base);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.02) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-  border-color: var(--brand-200);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 
+    0 25px 50px -12px rgba(99, 102, 241, 0.2),
+    0 12px 24px -8px rgba(0, 0, 0, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 .event-card:hover::before {
   opacity: 1;
+  transform: scaleX(1);
+}
+
+.event-card:hover::after {
+  opacity: 1;
 }
 
 body.theme-dark .event-card {
-  background: var(--surface-1);
-  border-color: var(--border-default);
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+body.theme-dark .event-card::after {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
 }
 
 body.theme-dark .event-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 
+    0 25px 50px -12px rgba(99, 102, 241, 0.3),
+    0 0 80px -20px rgba(99, 102, 241, 0.2);
 }
 
 /* ============================================
@@ -185,11 +213,19 @@ body.theme-dark .event-card:hover {
   width: fit-content;
   font-size: var(--text-xs);
   font-weight: var(--font-semibold);
-  padding: var(--space-1) var(--space-3);
+  padding: 6px 14px;
   border-radius: var(--radius-full);
-  background: var(--brand-100);
+  background: linear-gradient(135deg, var(--brand-100) 0%, rgba(99, 102, 241, 0.15) 100%);
   color: var(--brand-700);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  transition: all 0.3s ease;
+}
+
+.event-card:hover .tag {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
 /* Type-specific badge colors */
@@ -299,13 +335,14 @@ body.theme-dark .spots-badge {
    ============================================ */
 
 .event-meta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
   padding: var(--space-4);
-  background: var(--surface-2);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--surface-2) 0%, rgba(99, 102, 241, 0.03) 100%);
+  border-radius: var(--radius-xl);
   margin-top: var(--space-2);
+  border: 1px solid var(--border-light);
 }
 
 body.theme-dark .event-meta {
@@ -315,9 +352,25 @@ body.theme-dark .event-meta {
 .event-meta-item {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   font-size: var(--text-sm);
   color: var(--text-secondary);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.event-meta-item:hover {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--text-primary);
+}
+
+.event-meta-item.club {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.08) 100%);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
 }
 
 .event-meta-item svg {
@@ -354,17 +407,37 @@ body.theme-dark .event-meta-item.club svg {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
   color: white;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-500) 50%, var(--accent-violet) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   cursor: pointer;
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow-brand);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .event-card button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-brand-lg);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  background-position: 100% 0%;
+}
+
+.event-card button:hover::before {
+  left: 100%;
 }
 
 .event-card button:active {
@@ -463,4 +536,294 @@ body.theme-dark .event-meta-item.club svg {
     flex-direction: column;
     gap: var(--space-2);
   }
+}
+
+/* ============================================
+   ENHANCED ANIMATIONS & EFFECTS
+   ============================================ */
+
+/* Card entrance animation with stagger */
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.event-card {
+  animation: cardSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: calc(var(--card-index, 0) * 0.08s);
+  opacity: 0;
+}
+
+/* Floating particles effect - subtle */
+.events-page::after {
+  content: '';
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 20%;
+  right: 10%;
+  animation: floatParticle 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-dark .events-page::after {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+}
+
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(-30px, 40px) scale(1.1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(20px, -20px) scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate(-10px, 30px) scale(1.05);
+    opacity: 0.4;
+  }
+}
+
+/* Shimmer effect on cards */
+.event-card .shimmer-effect {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.event-card:hover .shimmer-effect {
+  animation: shimmer 1.2s ease forwards;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* Glow ring on hover */
+.event-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-500) 0%, var(--accent-violet) 50%, var(--accent-cyan) 100%);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pulsing glow effect for card on hover */
+.event-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 
+    0 25px 50px -12px rgba(99, 102, 241, 0.25),
+    0 12px 24px -8px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+body.theme-dark .event-card:hover {
+  box-shadow: 
+    0 25px 50px -12px rgba(99, 102, 241, 0.35),
+    0 0 60px -15px rgba(99, 102, 241, 0.25),
+    0 0 0 1px rgba(99, 102, 241, 0.3);
+}
+
+/* Icon bounce on hover */
+.event-meta-item svg {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.event-card:hover .event-meta-item svg {
+  transform: scale(1.15);
+  color: var(--brand-500);
+}
+
+/* Title gradient effect on hover */
+.event-card h3 {
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.event-card:hover h3 {
+  background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Button pulse animation */
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(99, 102, 241, 0.5);
+  }
+}
+
+.event-card:hover button {
+  animation: buttonPulse 2s ease-in-out infinite;
+}
+
+/* Tag float animation */
+.event-card:hover .tag {
+  animation: tagFloat 0.5s ease forwards;
+}
+
+@keyframes tagFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Capacity bar fill animation */
+.capacity-fill {
+  animation: capacityGrow 1s ease-out forwards;
+  transform-origin: left;
+}
+
+@keyframes capacityGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Ripple effect on card click */
+.event-card .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.3);
+  transform: scale(0);
+  animation: rippleEffect 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes rippleEffect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Filter section animations */
+.filters {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Content header animation */
+.events-content h1 {
+  animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient border animation on focus */
+.filters select:focus {
+  border-image: linear-gradient(135deg, var(--brand-500), var(--accent-violet)) 1;
+  animation: borderGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+  from {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+  to {
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+  }
+}
+
+/* Hover lift for meta items */
+.event-meta-item {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.event-card:hover .event-meta-item:hover {
+  transform: translateY(-2px);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+/* Loading skeleton animation */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface-3) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: var(--radius-md);
 }

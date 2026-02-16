@@ -4,15 +4,18 @@
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
-  --radius: 520px;
-  --viewer-pad: 72px;
+  --radius: 420px;
+  --viewer-pad: 10px;
   --circ: calc(var(--radius) * 3.14);
   --rot-y: calc((360deg / var(--segments-x)) / 2);
   --rot-x: calc((360deg / var(--segments-y)) / 2);
   --item-width: calc(var(--circ) / var(--segments-x));
   --item-height: calc(var(--circ) / var(--segments-y));
   transform: translateZ(0);
-  /* Trigger hardware acceleration */
+  -webkit-transform: translateZ(0);
+  perspective: 1px;
+  -webkit-perspective: 1px;
+  isolation: isolate;
 }
 
 .sphere-root * {
@@ -37,53 +40,74 @@ main.sphere-main {
   display: grid;
   place-items: center;
   perspective: 2000px;
-  /* Increased perspective for better 3D effect */
   perspective-origin: 50% 50%;
   contain: layout paint size;
 }
 
 .sphere {
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   will-change: transform;
   transform: translateZ(calc(var(--radius) * -1));
+  -webkit-transform: translateZ(calc(var(--radius) * -1));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .item {
   width: calc(var(--item-width) * var(--item-size-x));
   height: calc(var(--item-height) * var(--item-size-y));
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: -999px;
+  bottom: -999px;
+  left: -999px;
+  right: -999px;
+  margin: auto;
   transform-origin: 50% 50%;
-  /* Center the item using margin-offset or translate */
-  margin-top: calc(var(--item-height) * var(--item-size-y) / -2);
-  margin-left: calc(var(--item-width) * var(--item-size-x) / -2);
-
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   will-change: transform;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transform:
-    rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg))) rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg))) translateZ(var(--radius));
+    rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+    translateZ(var(--radius));
+  -webkit-transform:
+    rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+    translateZ(var(--radius));
 }
 
 .item__image {
   position: absolute;
+  display: block;
   inset: 10px;
   border-radius: var(--tile-radius, 12px);
   overflow: hidden;
-  transform-style: preserve-3d;
-  transform: translateZ(0);
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
-  will-change: transform;
   cursor: pointer;
+  background: transparent;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
+  will-change: box-shadow, filter;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  touch-action: manipulation;
+  pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-  background: white;
-  /* Fallback background */
 }
 
-.item__image:hover {
-  transform: translateZ(20px) scale(1.1);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+.item__image:hover,
+.item__image:focus-visible {
+  box-shadow: 
+    0 8px 25px rgba(99, 102, 241, 0.35),
+    0 0 0 2px rgba(99, 102, 241, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  filter: brightness(1.08) saturate(1.1);
+  z-index: 10;
 }
 
 .item__image img {
@@ -92,11 +116,18 @@ main.sphere-main {
   object-fit: cover;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
+  transform: translateZ(0) scale(1.001);
+  -webkit-transform: translateZ(0) scale(1.001);
+  pointer-events: none;
   filter: var(--image-filter, none);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
-/* UI Overlays */
+.item__image:focus {
+  outline: none;
+}
+
 .overlay,
 .overlay--blur {
   position: absolute;
@@ -133,7 +164,6 @@ main.sphere-main {
   bottom: 0;
 }
 
-/* Dark mode overlay adjustments */
 body.theme-dark .overlay {
   background-image: radial-gradient(rgba(0, 0, 0, 0) 65%, rgba(15, 23, 42, 0.85) 100%);
 }
@@ -147,7 +177,6 @@ body.theme-dark .edge-fade {
   background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.6));
 }
 
-/* Viewer / Enlarge styles */
 .viewer {
   position: absolute;
   inset: 0;
@@ -186,12 +215,11 @@ body.theme-dark .edge-fade {
 
 .viewer .enlarge img {
   width: 100%;
-  height: 100%;
+  height: 50%;
   object-fit: cover;
 }
 
 .enlarge-info {
-  /* ... Info panel styles preserved ... */
   font-family: Inter, system-ui, sans-serif;
   color: #fff;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
@@ -203,5 +231,4 @@ body.theme-dark .edge-fade {
   pointer-events: auto;
   overflow: auto;
   opacity: 0;
-  /* Initially hidden */
 }
