@@ -1,20 +1,17 @@
 /* ============================================
-   EVENTS PAGE - Using Design System Tokens
-   Consistent with GMRIT Events Theme
+   EVENTS PAGE — Premium Redesign
    ============================================ */
 
-/* ============================================
-   PAGE LAYOUT
-   ============================================ */
+/* ---- PAGE LAYOUT ---- */
 
 .events-page {
   display: flex;
   min-height: 100vh;
+  padding-top: var(--nav-height, 72px);
   background: var(--bg-primary);
   position: relative;
 }
 
-/* Subtle mesh background */
 .events-page::before {
   content: '';
   position: fixed;
@@ -24,9 +21,45 @@
   z-index: 0;
 }
 
-/* ============================================
-   FILTER SIDEBAR
-   ============================================ */
+/* Animated floating orb */
+.events-page::after {
+  content: '';
+  position: fixed;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 15%;
+  right: 8%;
+  animation: orbFloat 18s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-dark .events-page::after {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+}
+
+@keyframes orbFloat {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+
+  33% {
+    transform: translate(-40px, 50px) scale(1.15);
+    opacity: 0.7;
+  }
+
+  66% {
+    transform: translate(30px, -30px) scale(0.9);
+    opacity: 0.45;
+  }
+}
+
+/* ---- FILTER SIDEBAR ---- */
 
 .filters {
   width: var(--sidebar-width);
@@ -38,6 +71,7 @@
   height: calc(100vh - var(--nav-height));
   overflow-y: auto;
   z-index: 1;
+  animation: slideInLeft 0.5s ease-out;
 }
 
 body.theme-dark .filters {
@@ -45,25 +79,183 @@ body.theme-dark .filters {
   border-right-color: var(--border-default);
 }
 
-.filters h3 {
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-6);
+}
+
+.filters-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.filters-title svg {
+  color: var(--brand-500);
+}
+
+.filters-title h3,
+.filters h3 {
+  margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--font-bold);
   color: var(--text-primary);
   letter-spacing: -0.01em;
 }
 
-/* LABELS */
+/* Clear all button */
+.clear-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--error, #ef4444);
+  background: var(--error-light, rgba(239, 68, 68, 0.08));
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badgePop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.clear-filters-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  transform: scale(1.04);
+}
+
+body.theme-dark .clear-filters-btn {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+/* Filter group */
+.filter-group {
+  margin-top: var(--space-5);
+}
+
+.filter-group label,
 .filters label {
   display: block;
-  margin-top: var(--space-5);
-  margin-bottom: var(--space-2);
-  font-size: var(--text-sm);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Pill-style filter buttons */
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
   font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  background: var(--surface-2, #f1f5f9);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  animation: pillEntrance 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--pill-index, 0) * 50ms) both;
+}
+
+@keyframes pillEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.filter-pill:hover {
+  border-color: var(--brand-300, #a5b4fc);
+  background: rgba(99, 102, 241, 0.06);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.filter-pill.active {
+  background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-violet, #8b5cf6) 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Type-specific active pill colors */
+.filter-pill.active.technical {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.filter-pill.active.cultural {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.filter-pill.active.workshop {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.filter-pill.active.seminar {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+body.theme-dark .filter-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
   color: var(--text-secondary);
 }
 
-/* SELECT DROPDOWNS */
+body.theme-dark .filter-pill:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Keep old select styles for backward compat */
 .filters select {
   width: 100%;
   padding: var(--space-3) var(--space-4);
@@ -93,9 +285,7 @@ body.theme-dark .filters select {
   color: var(--text-primary);
 }
 
-/* ============================================
-   CONTENT AREA
-   ============================================ */
+/* ---- CONTENT AREA ---- */
 
 .events-content {
   flex: 1;
@@ -104,17 +294,48 @@ body.theme-dark .filters select {
   z-index: 1;
 }
 
-.events-content h1 {
+.events-header {
+  margin-bottom: var(--space-4);
+  animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.events-content h1,
+.events-header h1 {
   font-size: var(--text-3xl);
   font-weight: var(--font-extrabold);
   color: var(--text-primary);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-6);
+  letter-spacing: -0.03em;
+  margin: 0 0 var(--space-2) 0;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--brand-500) 60%, var(--accent-violet, #8b5cf6) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* ============================================
-   EVENTS GRID
-   ============================================ */
+.events-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.events-subtitle strong {
+  color: var(--brand-500);
+  font-weight: var(--font-bold);
+}
+
+/* ---- EVENTS GRID ---- */
 
 .events-grid {
   display: grid;
@@ -123,40 +344,95 @@ body.theme-dark .filters select {
   margin-top: var(--space-6);
 }
 
-/* ============================================
-   EVENT CARD
-   ============================================ */
+/* ---- EVENT CARD ---- */
 
 .event-card {
   background: var(--surface-1);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-2xl);
-  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-}
-
-.event-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--brand-500) 0%, var(--accent-violet) 50%, var(--accent-cyan) 100%);
+  animation: cardSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--card-index, 0) * 0.08s) both;
   opacity: 0;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Card gradient banner */
+.event-card-banner {
+  height: 6px;
+  background: linear-gradient(90deg, var(--brand-500) 0%, var(--accent-violet, #8b5cf6) 50%, var(--accent-cyan, #06b6d4) 100%);
+  position: relative;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.event-card:hover .event-card-banner {
+  height: 8px;
+}
+
+.event-card-banner.technical {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #2563eb);
+}
+
+.event-card-banner.cultural {
+  background: linear-gradient(90deg, #10b981, #34d399, #059669);
+}
+
+.event-card-banner.workshop {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24, #d97706);
+}
+
+.event-card-banner.seminar {
+  background: linear-gradient(90deg, #ef4444, #f87171, #dc2626);
+}
+
+.banner-pattern {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.15) 0px,
+      rgba(255, 255, 255, 0.15) 2px,
+      transparent 2px,
+      transparent 8px);
+  animation: patternSlide 20s linear infinite;
+}
+
+@keyframes patternSlide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(80px);
+  }
+}
+
+.event-card-body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+/* Card overlay glow */
 .event-card::after {
   content: '';
   position: absolute;
@@ -169,15 +445,11 @@ body.theme-dark .filters select {
 
 .event-card:hover {
   transform: translateY(-8px) scale(1.01);
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px rgba(99, 102, 241, 0.2),
-    0 12px 24px -8px rgba(0, 0, 0, 0.12);
+    0 12px 24px -8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(99, 102, 241, 0.1);
   border-color: rgba(99, 102, 241, 0.3);
-}
-
-.event-card:hover::before {
-  opacity: 1;
-  transform: scaleX(1);
 }
 
 .event-card:hover::after {
@@ -188,7 +460,6 @@ body.theme-dark .event-card {
   background: rgba(30, 41, 59, 0.8);
   border-color: rgba(99, 102, 241, 0.15);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 
 body.theme-dark .event-card::after {
@@ -197,14 +468,44 @@ body.theme-dark .event-card::after {
 
 body.theme-dark .event-card:hover {
   border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px rgba(99, 102, 241, 0.3),
-    0 0 80px -20px rgba(99, 102, 241, 0.2);
+    0 0 60px -15px rgba(99, 102, 241, 0.2),
+    0 0 0 1px rgba(99, 102, 241, 0.3);
 }
 
-/* ============================================
-   EVENT TAG / BADGE
-   ============================================ */
+/* Shimmer effect */
+.event-card .shimmer-effect {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.03) 25%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.03) 75%,
+      transparent 100%);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.event-card:hover .shimmer-effect {
+  animation: shimmer 1.2s ease forwards;
+}
+
+@keyframes shimmer {
+  from {
+    left: -150%;
+  }
+
+  to {
+    left: 150%;
+  }
+}
+
+/* ---- TAG BADGES ---- */
 
 .event-card .tag {
   display: inline-flex;
@@ -228,25 +529,28 @@ body.theme-dark .event-card:hover {
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
-/* Type-specific badge colors */
 .event-card .tag.technical {
   background: var(--info-light);
   color: var(--info-dark);
+  border-color: rgba(59, 130, 246, 0.2);
 }
 
 .event-card .tag.cultural {
   background: var(--success-light);
   color: var(--success-dark);
+  border-color: rgba(16, 185, 129, 0.2);
 }
 
 .event-card .tag.workshop {
   background: var(--warning-light);
   color: var(--warning-dark);
+  border-color: rgba(245, 158, 11, 0.2);
 }
 
 .event-card .tag.seminar {
   background: var(--error-light);
   color: var(--error-dark);
+  border-color: rgba(239, 68, 68, 0.2);
 }
 
 body.theme-dark .event-card .tag {
@@ -274,10 +578,7 @@ body.theme-dark .event-card .tag.seminar {
   color: #f87171;
 }
 
-/* ============================================
-   SPOTS LEFT BADGE
-   ============================================ */
-
+/* Spots badge */
 .spots-badge {
   display: inline-flex;
   align-items: center;
@@ -288,6 +589,19 @@ body.theme-dark .event-card .tag.seminar {
   border-radius: var(--radius-full);
   background: var(--error-light);
   color: var(--error-dark);
+  animation: spotsPulse 2s ease-in-out infinite;
+}
+
+@keyframes spotsPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
 }
 
 body.theme-dark .spots-badge {
@@ -295,9 +609,7 @@ body.theme-dark .spots-badge {
   color: #f87171;
 }
 
-/* ============================================
-   CARD HEADER
-   ============================================ */
+/* ---- CARD HEADER ---- */
 
 .event-card-header {
   display: flex;
@@ -306,9 +618,7 @@ body.theme-dark .spots-badge {
   gap: var(--space-3);
 }
 
-/* ============================================
-   EVENT TITLE & DESCRIPTION
-   ============================================ */
+/* ---- TITLE & DESCRIPTION ---- */
 
 .event-card h3 {
   font-size: var(--text-lg);
@@ -317,6 +627,14 @@ body.theme-dark .spots-badge {
   margin: 0;
   line-height: var(--leading-tight);
   letter-spacing: -0.01em;
+  transition: all 0.3s ease;
+}
+
+.event-card:hover h3 {
+  background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-violet, #8b5cf6) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .event-card .event-description {
@@ -330,9 +648,7 @@ body.theme-dark .spots-badge {
   overflow: hidden;
 }
 
-/* ============================================
-   EVENT META INFO
-   ============================================ */
+/* ---- EVENT META ---- */
 
 .event-meta {
   display: grid;
@@ -357,12 +673,13 @@ body.theme-dark .event-meta {
   color: var(--text-secondary);
   padding: var(--space-2);
   border-radius: var(--radius-md);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .event-meta-item:hover {
   background: rgba(99, 102, 241, 0.08);
   color: var(--text-primary);
+  transform: translateY(-2px);
 }
 
 .event-meta-item.club {
@@ -378,6 +695,12 @@ body.theme-dark .event-meta {
   height: 16px;
   color: var(--text-muted);
   flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.event-card:hover .event-meta-item svg {
+  transform: scale(1.15);
+  color: var(--brand-500);
 }
 
 .event-meta-item.club svg {
@@ -392,9 +715,7 @@ body.theme-dark .event-meta-item.club svg {
   color: var(--brand-400);
 }
 
-/* ============================================
-   EVENT CARD BUTTON
-   ============================================ */
+/* ---- BUTTON ---- */
 
 .event-card button {
   display: inline-flex;
@@ -407,7 +728,7 @@ body.theme-dark .event-meta-item.club svg {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
   color: white;
-  background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-500) 50%, var(--accent-violet) 100%);
+  background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-500) 50%, var(--accent-violet, #8b5cf6) 100%);
   background-size: 200% 100%;
   background-position: 0% 0%;
   border: none;
@@ -452,9 +773,23 @@ body.theme-dark .event-meta-item.club svg {
   transform: translateX(4px);
 }
 
-/* ============================================
-   CAPACITY BAR
-   ============================================ */
+.event-card:hover button {
+  animation: buttonPulse 2s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 4px 25px rgba(99, 102, 241, 0.5);
+  }
+}
+
+/* ---- CAPACITY BAR ---- */
 
 .capacity-bar {
   width: 100%;
@@ -470,6 +805,18 @@ body.theme-dark .event-meta-item.club svg {
   background: var(--gradient-primary);
   border-radius: var(--radius-full);
   transition: width var(--transition-slow);
+  animation: capacityGrow 1s ease-out forwards;
+  transform-origin: left;
+}
+
+@keyframes capacityGrow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .capacity-fill.high {
@@ -480,9 +827,62 @@ body.theme-dark .event-meta-item.club svg {
   background: var(--error);
 }
 
-/* ============================================
-   MOBILE RESPONSIVE
-   ============================================ */
+/* ---- NO RESULTS STATE ---- */
+
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12, 60px) var(--space-6);
+  text-align: center;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.no-results-icon {
+  font-size: 48px;
+  margin-bottom: var(--space-4);
+  animation: noResultsBounce 2s ease-in-out infinite;
+}
+
+@keyframes noResultsBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.no-results h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.no-results p {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ---- RESPONSIVE ---- */
 
 @media (max-width: 1024px) {
   .events-grid {
@@ -505,19 +905,16 @@ body.theme-dark .event-meta-item.club svg {
     padding: var(--space-4);
   }
 
-  .filters h3 {
+  .filters-header {
     margin-bottom: var(--space-4);
-  }
-
-  .filters label:first-of-type {
-    margin-top: 0;
   }
 
   .events-content {
     padding: var(--space-4);
   }
 
-  .events-content h1 {
+  .events-content h1,
+  .events-header h1 {
     font-size: var(--text-2xl);
   }
 
@@ -526,7 +923,7 @@ body.theme-dark .event-meta-item.club svg {
     gap: var(--space-4);
   }
 
-  .event-card {
+  .event-card-body {
     padding: var(--space-5);
   }
 }
@@ -536,293 +933,34 @@ body.theme-dark .event-meta-item.club svg {
     flex-direction: column;
     gap: var(--space-2);
   }
-}
 
-/* ============================================
-   ENHANCED ANIMATIONS & EFFECTS
-   ============================================ */
-
-/* Card entrance animation with stagger */
-@keyframes cardSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.95);
+  .filter-pills {
+    gap: 6px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+
+  .filter-pill {
+    padding: 5px 12px;
+    font-size: 11px;
   }
 }
 
-.event-card {
-  animation: cardSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  animation-delay: calc(var(--card-index, 0) * 0.08s);
-  opacity: 0;
-}
+/* ---- SKELETON LOADING ---- */
 
-/* Floating particles effect - subtle */
-.events-page::after {
-  content: '';
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-  border-radius: 50%;
-  top: 20%;
-  right: 10%;
-  animation: floatParticle 15s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-
-body.theme-dark .events-page::after {
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
-}
-
-@keyframes floatParticle {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.5;
-  }
-  25% {
-    transform: translate(-30px, 40px) scale(1.1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translate(20px, -20px) scale(0.9);
-    opacity: 0.6;
-  }
-  75% {
-    transform: translate(-10px, 30px) scale(1.05);
-    opacity: 0.4;
-  }
-}
-
-/* Shimmer effect on cards */
-.event-card .shimmer-effect {
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 150%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.03) 25%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.03) 75%,
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-  pointer-events: none;
-}
-
-.event-card:hover .shimmer-effect {
-  animation: shimmer 1.2s ease forwards;
-}
-
-@keyframes shimmer {
-  0% {
-    left: -150%;
-  }
-  100% {
-    left: 150%;
-  }
-}
-
-/* Glow ring on hover */
-.event-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--brand-500) 0%, var(--accent-violet) 50%, var(--accent-cyan) 100%);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Pulsing glow effect for card on hover */
-.event-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 
-    0 25px 50px -12px rgba(99, 102, 241, 0.25),
-    0 12px 24px -8px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(99, 102, 241, 0.1);
-}
-
-body.theme-dark .event-card:hover {
-  box-shadow: 
-    0 25px 50px -12px rgba(99, 102, 241, 0.35),
-    0 0 60px -15px rgba(99, 102, 241, 0.25),
-    0 0 0 1px rgba(99, 102, 241, 0.3);
-}
-
-/* Icon bounce on hover */
-.event-meta-item svg {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.event-card:hover .event-meta-item svg {
-  transform: scale(1.15);
-  color: var(--brand-500);
-}
-
-/* Title gradient effect on hover */
-.event-card h3 {
-  transition: all 0.3s ease;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-primary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-.event-card:hover h3 {
-  background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-violet) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Button pulse animation */
-@keyframes buttonPulse {
-  0%, 100% {
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 25px rgba(99, 102, 241, 0.5);
-  }
-}
-
-.event-card:hover button {
-  animation: buttonPulse 2s ease-in-out infinite;
-}
-
-/* Tag float animation */
-.event-card:hover .tag {
-  animation: tagFloat 0.5s ease forwards;
-}
-
-@keyframes tagFloat {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-  100% {
-    transform: translateY(-2px);
-  }
-}
-
-/* Capacity bar fill animation */
-.capacity-fill {
-  animation: capacityGrow 1s ease-out forwards;
-  transform-origin: left;
-}
-
-@keyframes capacityGrow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* Ripple effect on card click */
-.event-card .ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(99, 102, 241, 0.3);
-  transform: scale(0);
-  animation: rippleEffect 0.6s ease-out;
-  pointer-events: none;
-}
-
-@keyframes rippleEffect {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-/* Filter section animations */
-.filters {
-  animation: slideInLeft 0.5s ease-out;
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Content header animation */
-.events-content h1 {
-  animation: fadeInDown 0.6s ease-out;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Gradient border animation on focus */
-.filters select:focus {
-  border-image: linear-gradient(135deg, var(--brand-500), var(--accent-violet)) 1;
-  animation: borderGlow 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes borderGlow {
-  from {
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-  }
-  to {
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
-  }
-}
-
-/* Hover lift for meta items */
-.event-meta-item {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.event-card:hover .event-meta-item:hover {
-  transform: translateY(-2px);
-  background: rgba(99, 102, 241, 0.12);
-}
-
-/* Loading skeleton animation */
 @keyframes skeletonShimmer {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-2) 25%,
-    var(--surface-3) 50%,
-    var(--surface-2) 75%
-  );
+  background: linear-gradient(90deg,
+      var(--surface-2) 25%,
+      var(--surface-3) 50%,
+      var(--surface-2) 75%);
   background-size: 200% 100%;
   animation: skeletonShimmer 1.5s infinite;
   border-radius: var(--radius-md);
