@@ -45,7 +45,7 @@ function Navbar() {
                         <p>login</p>
                     </button>
 
-                    <button className="cta" onClick={() => setLoginOpen(true)}>Get Started</button>
+                    {/* <button className="cta" onClick={() => setLoginOpen(true)}>Get Started</button> */}
                 </div>
             </nav>
 
