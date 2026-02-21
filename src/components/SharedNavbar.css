@@ -377,7 +377,7 @@ body.theme-dark .profile-btn:hover .profile-avatar {
   background: var(--surface-1);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.12),
     0 8px 16px rgba(99, 102, 241, 0.08);
   opacity: 0;
@@ -398,7 +398,7 @@ body.theme-dark .profile-btn:hover .profile-avatar {
 body.theme-dark .profile-dropdown {
   background: var(--surface-1);
   border-color: rgba(99, 102, 241, 0.2);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(99, 102, 241, 0.1);
 }
@@ -512,27 +512,27 @@ body.theme-dark .dropdown-header {
   .shared-navbar {
     padding: 0 var(--space-4);
   }
-  
+
   .mobile-menu-btn {
     display: flex;
   }
-  
+
   .brand-text {
     display: none;
   }
-  
+
   .navbar-role-badge {
     display: none;
   }
-  
+
   .profile-info {
     display: none;
   }
-  
+
   .profile-chevron {
     display: none;
   }
-  
+
   .profile-btn {
     padding: var(--space-2);
   }
@@ -542,10 +542,30 @@ body.theme-dark .dropdown-header {
   .navbar-right {
     gap: var(--space-1);
   }
-  
+
   .navbar-icon-btn {
     width: 36px;
     height: 36px;
+  }
+
+  .shared-navbar {
+    padding: 0 var(--space-3);
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .profile-dropdown {
+    right: -8px;
+    min-width: calc(100vw - 32px);
+    max-width: 320px;
   }
 }
 
@@ -554,12 +574,32 @@ body.theme-dark .dropdown-header {
    ============================================ */
 
 @keyframes bellRing {
-  0%, 100% { transform: rotate(0); }
-  10% { transform: rotate(14deg); }
-  20% { transform: rotate(-8deg); }
-  30% { transform: rotate(6deg); }
-  40% { transform: rotate(-4deg); }
-  50%, 100% { transform: rotate(0); }
+
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  10% {
+    transform: rotate(14deg);
+  }
+
+  20% {
+    transform: rotate(-8deg);
+  }
+
+  30% {
+    transform: rotate(6deg);
+  }
+
+  40% {
+    transform: rotate(-4deg);
+  }
+
+  50%,
+  100% {
+    transform: rotate(0);
+  }
 }
 
 .notification-btn:hover svg {

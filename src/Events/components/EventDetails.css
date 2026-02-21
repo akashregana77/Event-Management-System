@@ -213,10 +213,15 @@ body.theme-dark .event-details-info-item svg {
   flex: 1;
 }
 
-/* Buttons responsive */
+/* Responsive */
 @media (max-width: 640px) {
+  .event-details-container {
+    padding: calc(var(--nav-height) + var(--space-4)) var(--space-3) var(--space-8);
+  }
+
   .event-details-card {
-    padding: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
   }
 
   .event-details-title {
@@ -225,5 +230,66 @@ body.theme-dark .event-details-info-item svg {
 
   .event-details-footer {
     flex-direction: column;
+  }
+
+  .event-details-info {
+    grid-template-columns: 1fr;
+  }
+
+  .event-details-description {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .event-details-container {
+    padding: calc(var(--nav-height) + var(--space-3)) var(--space-2) var(--space-6);
+  }
+
+  .event-details-card {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+
+  .event-details-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .event-details-title {
+    font-size: var(--text-xl);
+    letter-spacing: -0.01em;
+  }
+
+  .event-details-club {
+    font-size: var(--text-sm);
+  }
+
+  .event-details-badge {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .event-details-body {
+    margin-bottom: var(--space-4);
+  }
+
+  .event-details-info-item {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-xs);
+  }
+
+  .event-details-capacity {
+    padding: var(--space-4);
+  }
+
+  .event-details-footer {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+  }
+
+  .event-details-footer .btn-primary,
+  .event-details-footer .btn-secondary {
+    min-height: 44px;
+    font-size: var(--text-sm);
   }
 }

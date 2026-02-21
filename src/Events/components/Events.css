@@ -644,6 +644,7 @@ body.theme-dark .spots-badge {
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -925,10 +926,35 @@ body.theme-dark .event-meta-item.club svg {
 
   .event-card-body {
     padding: var(--space-5);
+    gap: var(--space-3);
+  }
+
+  .event-card h3 {
+    font-size: var(--text-base);
+  }
+
+  .event-meta {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .event-card button {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-xs);
   }
 }
 
 @media (max-width: 480px) {
+  .events-content {
+    padding: var(--space-3);
+  }
+
+  .events-content h1,
+  .events-header h1 {
+    font-size: var(--text-xl);
+  }
+
   .event-card-header {
     flex-direction: column;
     gap: var(--space-2);
@@ -941,6 +967,15 @@ body.theme-dark .event-meta-item.club svg {
   .filter-pill {
     padding: 5px 12px;
     font-size: 11px;
+  }
+
+  .event-card-body {
+    padding: var(--space-4);
+  }
+
+  .event-card .tag {
+    font-size: 10px;
+    padding: 4px 10px;
   }
 }
 

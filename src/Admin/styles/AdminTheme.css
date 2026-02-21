@@ -900,12 +900,10 @@ body.theme-dark .sa-tag-closed {
    ============================================ */
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-2) 25%,
-    var(--surface-3) 50%,
-    var(--surface-2) 75%
-  );
+  background: linear-gradient(90deg,
+      var(--surface-2) 25%,
+      var(--surface-3) 50%,
+      var(--surface-2) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: var(--radius-lg);
@@ -915,9 +913,17 @@ body.theme-dark .sa-tag-closed {
    17. RESPONSIVE UTILITIES
    ============================================ */
 
-.sa-hide-sm { display: table-cell; }
-.sa-hide-md { display: table-cell; }
-.sa-only-mobile { display: none; }
+.sa-hide-sm {
+  display: table-cell;
+}
+
+.sa-hide-md {
+  display: table-cell;
+}
+
+.sa-only-mobile {
+  display: none;
+}
 
 /* ============================================
    18. RESPONSIVE BREAKPOINTS
@@ -979,6 +985,7 @@ body.theme-dark .sa-tag-closed {
     align-items: flex-start;
     padding: var(--space-5);
     gap: var(--space-4);
+    min-height: auto;
   }
 
   .sa-welcome-card h2 {
@@ -987,6 +994,7 @@ body.theme-dark .sa-tag-closed {
 
   .sa-hero-badge {
     width: 100%;
+    min-width: 0;
   }
 
   .sa-stats-grid {
@@ -1001,6 +1009,7 @@ body.theme-dark .sa-tag-closed {
   .sa-stat-icon {
     width: 44px;
     height: 44px;
+    font-size: var(--text-base);
   }
 
   .sa-stat-value {
@@ -1013,6 +1022,52 @@ body.theme-dark .sa-tag-closed {
 
   .sa-card {
     padding: var(--space-4);
+    border-radius: var(--radius-xl);
+  }
+
+  .sa-card-header {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .sa-card-header h3 {
+    font-size: var(--text-base);
+  }
+
+  .sa-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .sa-list-item:hover {
+    transform: none;
+  }
+
+  .sa-table-wrapper {
+    margin: 0 calc(var(--space-4) * -1);
+    padding: 0 var(--space-4);
+  }
+
+  .sa-data-table th,
+  .sa-data-table td {
+    padding: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .sa-event-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .sa-event-item h4 {
+    font-size: var(--text-sm);
+  }
+
+  .sa-table-actions {
+    width: 100%;
   }
 }
 
@@ -1034,5 +1089,34 @@ body.theme-dark .sa-tag-closed {
   .ghost-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .sa-stat-card {
+    padding: var(--space-3);
+  }
+
+  .sa-stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sa-stat-value {
+    font-size: var(--text-lg);
+  }
+
+  .sa-card {
+    padding: var(--space-3);
+  }
+
+  .sa-data-table th,
+  .sa-data-table td {
+    padding: var(--space-2);
+    font-size: 11px;
+  }
+
+  .sa-badge-number {
+    width: 44px;
+    height: 44px;
+    font-size: var(--text-base);
   }
 }

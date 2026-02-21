@@ -776,9 +776,17 @@ body.theme-dark .sa-pill-primary {
    15. RESPONSIVE UTILITIES
    ============================================ */
 
-.sa-hide-sm { display: table-cell; }
-.sa-hide-md { display: table-cell; }
-.sa-only-mobile { display: none; }
+.sa-hide-sm {
+  display: table-cell;
+}
+
+.sa-hide-md {
+  display: table-cell;
+}
+
+.sa-only-mobile {
+  display: none;
+}
 
 /* ============================================
    16. RESPONSIVE BREAKPOINTS
@@ -840,6 +848,7 @@ body.theme-dark .sa-pill-primary {
     align-items: flex-start;
     padding: var(--space-5);
     gap: var(--space-4);
+    min-height: auto;
   }
 
   .sa-welcome-card h2 {
@@ -848,6 +857,7 @@ body.theme-dark .sa-pill-primary {
 
   .sa-hero-badge {
     width: 100%;
+    min-width: 0;
   }
 
   .sa-stats-grid {
@@ -862,6 +872,7 @@ body.theme-dark .sa-pill-primary {
   .sa-stat-icon {
     width: 44px;
     height: 44px;
+    font-size: var(--text-base);
   }
 
   .sa-stat-value {
@@ -874,6 +885,67 @@ body.theme-dark .sa-pill-primary {
 
   .sa-card {
     padding: var(--space-4);
+    border-radius: var(--radius-xl);
+  }
+
+  .sa-card-header {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .sa-card-header h3 {
+    font-size: var(--text-base);
+  }
+
+  /* Event Approvals - mobile stacking */
+  .sa-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .sa-list-item:hover {
+    transform: none;
+  }
+
+  .sa-table-actions {
+    width: 100%;
+    flex-direction: row !important;
+    gap: var(--space-2) !important;
+    margin-left: 0 !important;
+  }
+
+  .sa-table-actions .primary-btn,
+  .sa-table-actions .ghost-btn {
+    flex: 1;
+    justify-content: center;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  /* Tables */
+  .sa-table-wrapper {
+    margin: 0 calc(var(--space-4) * -1);
+    padding: 0 var(--space-4);
+  }
+
+  .sa-data-table th,
+  .sa-data-table td {
+    padding: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  /* Event items */
+  .sa-event-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .sa-event-item h4 {
+    font-size: var(--text-sm);
   }
 }
 
@@ -895,5 +967,38 @@ body.theme-dark .sa-pill-primary {
   .ghost-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .sa-stat-card {
+    padding: var(--space-3);
+  }
+
+  .sa-stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sa-stat-value {
+    font-size: var(--text-lg);
+  }
+
+  .sa-card {
+    padding: var(--space-3);
+  }
+
+  .sa-list-title {
+    font-size: var(--text-xs) !important;
+  }
+
+  .sa-data-table th,
+  .sa-data-table td {
+    padding: var(--space-2);
+    font-size: 11px;
+  }
+
+  .sa-badge-number {
+    width: 44px;
+    height: 44px;
+    font-size: var(--text-base);
   }
 }

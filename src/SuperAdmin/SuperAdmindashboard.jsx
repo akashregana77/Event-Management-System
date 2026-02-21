@@ -5,6 +5,7 @@ import "./SuperAdmindashboard.css";
 
 const navItems = [
 	{ id: "overview", label: "Dashboard", icon: "fa-solid fa-gauge-high" },
+	{ id: "approvals", label: "Event Approvals", icon: "fa-solid fa-clipboard-check" },
 	{ id: "clubs", label: "Manage Clubs", icon: "fa-solid fa-building-columns" },
 	{ id: "admins", label: "Manage Admins", icon: "fa-solid fa-user-shield" },
 	{ id: "settings", label: "System Settings", icon: "fa-solid fa-gear" },
@@ -25,6 +26,12 @@ const mockEvents = [
 	{ id: 3, title: "Cultural Fest", date: "Feb 20, 2024", registered: 410, status: "Closed" },
 ];
 
+const pendingEventsData = [
+	{ id: 201, title: "AI & ML Workshop", date: "2026-03-10", organizer: "IEEE", description: "Hands-on workshop on machine learning and neural networks.", status: "Pending" },
+	{ id: 202, title: "Cultural Night 2026", date: "2026-04-20", organizer: "Cultural Club", description: "Music, dance, and drama performances.", status: "Pending" },
+	{ id: 203, title: "Cybersecurity Bootcamp", date: "2026-03-25", organizer: "CSI", description: "Learn ethical hacking and penetration testing.", status: "Pending" },
+];
+
 const mockAdmins = [
 	{ id: 1, name: "Anita Rao", role: "Lead Admin", clubs: 5 },
 	{ id: 2, name: "Vikram Patel", role: "Event Manager", clubs: 3 },
@@ -42,6 +49,7 @@ export default function SuperAdminDashboard() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState("overview");
 	const [theme, setTheme] = useState(() => localStorage.getItem("superadmin-theme") || "light");
+	const [pendingEvents, setPendingEvents] = useState(pendingEventsData);
 
 	const totalRegistrations = useMemo(
 		() => mockEvents.reduce((acc, e) => acc + e.registered, 0),
@@ -62,6 +70,18 @@ export default function SuperAdminDashboard() {
 		const el = document.getElementById(id);
 		if (el) {
 			el.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	};
+
+	const handleApprove = (id) => {
+		if (window.confirm("Approve this event?")) {
+			setPendingEvents(prev => prev.filter(e => e.id !== id));
+		}
+	};
+
+	const handleReject = (id) => {
+		if (window.confirm("Reject this event?")) {
+			setPendingEvents(prev => prev.filter(e => e.id !== id));
 		}
 	};
 
@@ -131,6 +151,57 @@ export default function SuperAdminDashboard() {
 								</div>
 							</div>
 						))}
+					</section>
+
+					{/* ── Event Approvals ──────────────────────────── */}
+					<section id="approvals" className="sa-card glass">
+						<div className="sa-card-header">
+							<h3>Event Approvals</h3>
+							<span className="sa-pill sa-pill-primary">{pendingEvents.length} Pending</span>
+						</div>
+
+						{pendingEvents.length > 0 ? (
+							<div className="sa-list">
+								{pendingEvents.map((event, idx) => (
+									<div key={event.id} className="sa-list-item hover-card animate-stagger" style={{ animationDelay: `${idx * 100}ms` }}>
+										<div style={{ flex: 1 }}>
+											<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px', flexWrap: 'wrap', gap: '8px' }}>
+												<p className="sa-list-title" style={{ fontSize: '16px' }}>{event.title}</p>
+												<span className="sa-tag sa-tag-closed" style={{ background: '#fff7ed', color: '#c2410c', borderColor: '#ffedd5' }}>Pending Review</span>
+											</div>
+											<p className="sa-muted" style={{ fontSize: '13px', marginBottom: '8px' }}>
+												{event.date} • <span style={{ color: 'var(--brand)', fontWeight: '600' }}>{event.organizer}</span>
+											</p>
+											<p style={{ fontSize: '14px', color: 'var(--text)', opacity: 0.9 }}>{event.description}</p>
+										</div>
+
+										<div className="sa-table-actions" style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
+											<button
+												className="primary-btn sa-compact"
+												onClick={() => handleApprove(event.id)}
+												title="Approve"
+												style={{ background: 'linear-gradient(135deg, #10b981, #059669)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)' }}
+											>
+												<i className="fa-solid fa-check" style={{ marginRight: '4px' }}></i> Approve
+											</button>
+											<button
+												className="ghost-btn sa-compact"
+												onClick={() => handleReject(event.id)}
+												title="Reject"
+												style={{ color: '#ef4444', borderColor: '#fee2e2' }}
+											>
+												<i className="fa-solid fa-xmark" style={{ marginRight: '4px' }}></i> Reject
+											</button>
+										</div>
+									</div>
+								))}
+							</div>
+						) : (
+							<div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)' }}>
+								<i className="fa-solid fa-circle-check" style={{ fontSize: '32px', color: '#10b981', marginBottom: '12px', display: 'block' }}></i>
+								<p>No pending approvals. All clear! 🎉</p>
+							</div>
+						)}
 					</section>
 
 					<section id="clubs" className="sa-card glass">

@@ -1,11 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
-import StudentDashboard from './Student/StudentDashboard';
-import MyEvents from './Student/MyEvents';
-import SuperAdminDashboard from './SuperAdmin/SuperAdmindashboard';
+import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './components/ui/Toast';
+import ProtectedRoute from './components/ProtectedRoute';
+import SuperAdminRoutes from './SuperAdmin/SuperAdminRoutes';
+import StudentRoutes from './Student/StudentRoutes';
+import AdminRoutes from './Admin/AdminRoutes';
 import Main from './Home/main';
 import Navbar from './Home/navbar';
 import DomeGallery from './Home/globe/DomeGallery';
-import AdminRoutes from './Admin/AdminRoutes';
 import Events from './Events/components/Events';
 import EventDetails from './Events/components/EventDetails';
 import Clubs from './Home/Bodies/clubs';
@@ -26,18 +28,38 @@ function Home() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/admin/*" element={<AdminRoutes />} />
-      <Route path="/student/dashboard" element={<StudentDashboard />} />
-      <Route path="/student/my-events" element={<MyEvents />} />
-      <Route path="/superadmin" element={<SuperAdminDashboard />} />
-      <Route path="/events" element={<Events />} />
-      <Route path="/events/:id" element={<EventDetails />} />
-    </Routes>
+    <AuthProvider>
+      <ToastProvider>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+
+          {/* Admin routes */}
+          <Route path="/admin/*" element={
+            <ProtectedRoute allowedRoles={['admin', 'superadmin']}>
+              <AdminRoutes />
+            </ProtectedRoute>
+          } />
+
+          {/* Student routes (nested under StudentLayout) */}
+          <Route path="/student/*" element={
+            <ProtectedRoute allowedRoles={['student']}>
+              <StudentRoutes />
+            </ProtectedRoute>
+          } />
+
+          {/* SuperAdmin routes (nested under SuperAdminLayout) */}
+          <Route path="/superadmin/*" element={
+            <ProtectedRoute allowedRoles={['superadmin']}>
+              <SuperAdminRoutes />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </ToastProvider>
+    </AuthProvider>
   );
 }
 
 export default App;
-
-

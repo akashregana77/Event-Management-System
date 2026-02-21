@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Upload } from 'lucide-react';
+import { createEvent } from '../../services/eventService';
+import { addEventApprovalNotification } from '../../services/notificationService';
 
 const CreateEvent = () => {
     const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ const CreateEvent = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const [submitStatus, setSubmitStatus] = useState(''); // '' | 'loading' | 'success'
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,22 +47,39 @@ const CreateEvent = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validate()) {
-            alert('Event Created Successfully! (Dummy Action)');
-            console.log('Form Submitted', formData);
-            setFormData({
-                title: '',
-                description: '',
-                date: '',
-                time: '',
-                venue: '',
-                organizer: '',
-                registrationLimit: '',
-                category: '',
-                poster: null
+        if (!validate()) return;
+
+        setSubmitStatus('loading');
+        try {
+            const newEvent = await createEvent({
+                title: formData.title,
+                description: formData.description,
+                date: formData.date,
+                time: formData.time,
+                venue: formData.venue,
+                location: formData.venue,
+                organizer: formData.organizer,
+                registrationLimit: Number(formData.registrationLimit),
+                category: formData.category,
+                type: formData.category,
             });
+
+            // Send notification to SuperAdmin
+            await addEventApprovalNotification(newEvent);
+
+            setSubmitStatus('success');
+            setFormData({
+                title: '', description: '', date: '', time: '',
+                venue: '', organizer: '', registrationLimit: '',
+                category: '', poster: null
+            });
+
+            setTimeout(() => setSubmitStatus(''), 4000);
+        } catch (err) {
+            console.error('Failed to create event:', err);
+            setSubmitStatus('');
         }
     };
 
@@ -233,12 +253,26 @@ const CreateEvent = () => {
                         </div>
                     </div>
 
+                    {submitStatus === 'success' && (
+                        <div style={{
+                            padding: '14px 20px', borderRadius: '12px', marginTop: '16px',
+                            background: 'linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1))',
+                            border: '1px solid rgba(16,185,129,0.3)', color: '#059669',
+                            fontWeight: '600', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '10px'
+                        }}>
+                            ✅ Event submitted for approval! SuperAdmin has been notified.
+                        </div>
+                    )}
+
                     <div className="form-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '32px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
-                        <button type="button" className="ghost-btn" onClick={() => setFormData({})}>
+                        <button type="button" className="ghost-btn" onClick={() => setFormData({
+                            title: '', description: '', date: '', time: '',
+                            venue: '', organizer: '', registrationLimit: '', category: '', poster: null
+                        })}>
                             Reset
                         </button>
-                        <button type="submit" className="primary-btn">
-                            Create Event
+                        <button type="submit" className="primary-btn" disabled={submitStatus === 'loading'}>
+                            {submitStatus === 'loading' ? 'Submitting...' : 'Create Event'}
                         </button>
                     </div>
                 </form>

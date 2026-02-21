@@ -220,3 +220,71 @@ body.theme-dark .edge-fade {
   overflow: auto;
   opacity: 0;
 }
+
+/* ============================================
+   RESPONSIVE - Globe / Sphere
+   ============================================ */
+
+@media (max-width: 768px) {
+  .sphere-root {
+    --radius: 320px;
+    height: 70vh;
+    max-height: 70vh;
+    overflow: hidden;
+  }
+
+  .item__image {
+    inset: 12px;
+    border-radius: var(--tile-radius, 8px);
+  }
+
+  .item__image img {
+    transform: translateZ(0) scale(0.95);
+  }
+
+  .edge-fade {
+    height: 80px;
+  }
+
+  .overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0) 55%, rgba(248, 250, 255, 0.9) 100%);
+  }
+
+  body.theme-dark .overlay {
+    background-image: radial-gradient(rgba(0, 0, 0, 0) 55%, rgba(15, 23, 42, 0.9) 100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .sphere-root {
+    --radius: 250px;
+    height: 60vh;
+    max-height: 60vh;
+  }
+
+  .stage {
+    perspective: 1400px;
+  }
+
+  .item__image {
+    inset: 10px;
+    border-radius: var(--tile-radius, 6px);
+  }
+
+  .item__image img {
+    transform: translateZ(0) scale(0.9);
+  }
+
+  .edge-fade {
+    height: 60px;
+  }
+
+  .viewer .enlarge {
+    border-radius: var(--enlarge-radius, 16px);
+  }
+
+  .enlarge-info {
+    padding: 12px;
+    font-size: 13px;
+  }
+}

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Menu, Bell, Moon, Sun, GraduationCap, User, Search, ChevronDown, LogOut, Settings, UserCircle } from 'lucide-react';
 import './SharedNavbar.css';
 
-const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sidebarOpen, userName = "User" }) => {
+const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sidebarOpen, userName = "User", notificationSlot }) => {
     const [profileOpen, setProfileOpen] = useState(false);
     const profileRef = useRef(null);
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                 >
                     <Menu size={20} />
                 </button>
-                
+
                 <div className="navbar-brand">
                     <div className="brand-logo">
                         <GraduationCap size={26} />
@@ -54,7 +54,7 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                         <span className="brand-accent">Events</span>
                     </div>
                 </div>
-                
+
                 <span className={`navbar-role-badge ${getRoleBadgeClass()}`}>
                     {role}
                 </span>
@@ -63,8 +63,8 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
             <div className="navbar-center">
                 <div className="navbar-search">
                     <Search size={18} className="search-icon" />
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder="Search events, clubs..."
                         className="search-input"
                     />
@@ -85,18 +85,22 @@ const SharedNavbar = ({ role = "Admin", theme, toggleTheme, toggleSidebar, sideb
                     </div>
                 </button>
 
-                <button 
-                    type="button" 
-                    className="navbar-icon-btn notification-btn" 
-                    aria-label="Notifications"
-                >
-                    <Bell size={18} />
-                    <span className="notification-badge">3</span>
-                </button>
+                {notificationSlot ? (
+                    notificationSlot
+                ) : (
+                    <button
+                        type="button"
+                        className="navbar-icon-btn notification-btn"
+                        aria-label="Notifications"
+                    >
+                        <Bell size={18} />
+                        <span className="notification-badge">3</span>
+                    </button>
+                )}
 
                 <div className="navbar-profile" ref={profileRef}>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         className={`profile-btn ${profileOpen ? 'active' : ''}`}
                         onClick={() => setProfileOpen(!profileOpen)}
                         aria-label="Profile menu"

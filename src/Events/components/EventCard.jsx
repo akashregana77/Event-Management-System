@@ -9,7 +9,6 @@ const EventCard = ({ event }) => {
   const isAlmostFull = spotsLeft <= 5 && spotsLeft > 0;
   const capacityPercentage = ((event.registered || 0) / event.capacity) * 100;
 
-  // Get capacity bar class based on fill level
   const getCapacityClass = () => {
     if (capacityPercentage >= 90) return 'full';
     if (capacityPercentage >= 70) return 'high';

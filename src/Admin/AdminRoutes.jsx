@@ -5,7 +5,6 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import ManageEvents from './pages/ManageEvents';
 import CreateEvent from './pages/CreateEvent';
-import EventApprovals from './pages/EventApprovals';
 import Registrations from './pages/Registrations';
 
 
@@ -17,7 +16,6 @@ function AdminRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="events" element={<ManageEvents />} />
           <Route path="create-event" element={<CreateEvent />} />
-          <Route path="approvals" element={<EventApprovals />} />
           <Route path="registrations" element={<Registrations />} />
           <Route path="users" element={<div>Users</div>} />
           <Route path="reports" element={<div>Reports</div>} />

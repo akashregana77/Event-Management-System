@@ -1,20 +1,26 @@
-/* ============================================
-   GLOBAL BASE STYLES
-   Applied after design system tokens
-   ============================================ */
-
-/* ============================================
-   RESET & BASE
-   ============================================ */
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Reset margins/padding - exclude DomeGallery sphere elements */
-body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
   margin: 0;
   padding: 0;
 }
@@ -24,6 +30,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 body {
@@ -46,7 +53,12 @@ body.theme-dark {
    TYPOGRAPHY BASE
    ============================================ */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
@@ -79,7 +91,8 @@ body.theme-dark a:hover {
   color: var(--brand-300);
 }
 
-strong, b {
+strong,
+b {
   font-weight: 600;
 }
 
@@ -114,23 +127,14 @@ img {
   object-fit: cover;
 }
 
-/* Preserve DomeGallery element positioning */
-.sphere-root,
-.sphere-root *,
-.sphere,
-.item,
-.item__image,
-.enlarge-info,
-.viewer,
-.viewer * {
-  /* Don't override any DomeGallery styles */
-}
+/* DomeGallery elements use their own styles — no global overrides needed */
 
 /* ============================================
    LISTS
    ============================================ */
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
@@ -152,7 +156,9 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
   font-size: inherit;
 }
@@ -241,19 +247,51 @@ body.theme-dark ::selection {
 }
 
 /* Flex utilities */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: var(--space-2); }
-.gap-4 { gap: var(--space-4); }
-.gap-6 { gap: var(--space-6); }
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: var(--space-2);
+}
+
+.gap-4 {
+  gap: var(--space-4);
+}
+
+.gap-6 {
+  gap: var(--space-6);
+}
 
 /* Text utilities */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -261,22 +299,67 @@ body.theme-dark ::selection {
 }
 
 /* Spacing */
-.m-0 { margin: 0; }
-.mt-4 { margin-top: var(--space-4); }
-.mb-4 { margin-bottom: var(--space-4); }
-.p-4 { padding: var(--space-4); }
-.p-6 { padding: var(--space-6); }
+.m-0 {
+  margin: 0;
+}
+
+.mt-4 {
+  margin-top: var(--space-4);
+}
+
+.mb-4 {
+  margin-bottom: var(--space-4);
+}
+
+.p-4 {
+  padding: var(--space-4);
+}
+
+.p-6 {
+  padding: var(--space-6);
+}
 
 /* Display */
-.hidden { display: none; }
-.block { display: block; }
-.inline-block { display: inline-block; }
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
 
 /* Responsive utilities */
 @media (max-width: 768px) {
-  .hide-mobile { display: none !important; }
+  .hide-mobile {
+    display: none !important;
+  }
 }
 
 @media (min-width: 769px) {
-  .hide-desktop { display: none !important; }
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Touch-friendly tap targets on mobile */
+@media (max-width: 768px) {
+
+  button,
+  a,
+  input[type="submit"],
+  input[type="button"],
+  .btn {
+    min-height: 44px;
+  }
+
+  /* Disable hover-lift effects on touch devices (they stick) */
+  .hover-lift:hover,
+  .event-card:hover,
+  .card-interactive:hover {
+    transform: none;
+  }
 }

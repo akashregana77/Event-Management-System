@@ -6,7 +6,6 @@ const AdminSidebar = ({ isOpen, closeSidebar }) => {
         { path: '/admin', label: 'Dashboard', icon: 'fa-solid fa-gauge-high', end: true },
         { path: '/admin/events', label: 'Manage Events', icon: 'fa-regular fa-calendar-check' },
         { path: '/admin/create-event', label: 'Create Event', icon: 'fa-solid fa-plus' },
-        { path: '/admin/approvals', label: 'Event Approvals', icon: 'fa-solid fa-clipboard-check' },
         { path: '/admin/registrations', label: 'Registrations', icon: 'fa-solid fa-users' },
         { path: '/admin/users', label: 'Users', icon: 'fa-solid fa-user-gear' },
         { path: '/admin/reports', label: 'Reports', icon: 'fa-solid fa-chart-pie' },

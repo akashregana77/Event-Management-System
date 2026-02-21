@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, User, Shield, Crown, Eye, EyeOff, ArrowLeft, Mail, Lock, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { X, User, Shield, Crown, ArrowLeft, Mail, Loader2, KeyRound, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import './LoginModal.css';
+
+const API_URL = 'http://localhost:5000/api';
 
 const roles = [
   {
@@ -30,114 +34,241 @@ const roles = [
 ];
 
 export default function LoginModal({ isOpen, onClose }) {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  // OTP state
+  const [step, setStep] = useState('email'); // 'email' | 'otp'
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [otpError, setOtpError] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+  const [successMessage, setSuccessMessage] = useState('');
+
   const modalRef = useRef(null);
+  const otpRefs = useRef([]);
 
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') onClose();
     };
-    
+
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
-    
+
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
 
+  // Reset all state when modal closes
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
         setSelectedRole(null);
-        setFormData({ email: '', password: '' });
-        setErrors({});
-        setTouched({});
-        setShowPassword(false);
+        setEmail('');
+        setEmailError('');
+        setEmailTouched(false);
+        setStep('email');
+        setOtp(['', '', '', '', '', '']);
+        setOtpError('');
+        setOtpSent(false);
+        setResendTimer(0);
+        setSuccessMessage('');
       }, 300);
     }
   }, [isOpen]);
+
+  // Resend countdown timer
+  useEffect(() => {
+    if (resendTimer <= 0) return;
+    const interval = setInterval(() => {
+      setResendTimer(prev => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
 
-  const validateEmail = (email) => {
+  const validateEmail = (value) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+    return re.test(value);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (touched[field]) {
-      if (field === 'email') {
-        if (!value) setErrors(prev => ({ ...prev, email: 'Email is required' }));
-        else if (!validateEmail(value)) setErrors(prev => ({ ...prev, email: 'Please enter a valid email' }));
-        else setErrors(prev => ({ ...prev, email: '' }));
-      }
-      if (field === 'password') {
-        if (!value) setErrors(prev => ({ ...prev, password: 'Password is required' }));
-        else if (value.length < 6) setErrors(prev => ({ ...prev, password: 'Password must be at least 6 characters' }));
-        else setErrors(prev => ({ ...prev, password: '' }));
-      }
+  const handleEmailChange = (value) => {
+    setEmail(value);
+    if (emailTouched) {
+      if (!value) setEmailError('Email is required');
+      else if (!validateEmail(value)) setEmailError('Please enter a valid email');
+      else setEmailError('');
     }
   };
 
-  const handleBlur = (field) => {
-    setTouched(prev => ({ ...prev, [field]: true }));
-    if (field === 'email') {
-      if (!formData.email) setErrors(prev => ({ ...prev, email: 'Email is required' }));
-      else if (!validateEmail(formData.email)) setErrors(prev => ({ ...prev, email: 'Please enter a valid email' }));
-    }
-    if (field === 'password') {
-      if (!formData.password) setErrors(prev => ({ ...prev, password: 'Password is required' }));
-      else if (formData.password.length < 6) setErrors(prev => ({ ...prev, password: 'Password must be at least 6 characters' }));
-    }
+  const handleEmailBlur = () => {
+    setEmailTouched(true);
+    if (!email) setEmailError('Email is required');
+    else if (!validateEmail(email)) setEmailError('Please enter a valid email');
+    else setEmailError('');
   };
 
-  const handleSubmit = async (e) => {
+  // ── Send OTP ────────────────────────────────────────────────────
+  const handleSendOTP = async (e) => {
     e.preventDefault();
-    setTouched({ email: true, password: true });
-    
-    if (!validateForm()) return;
-    
+    setEmailTouched(true);
+
+    if (!email) { setEmailError('Email is required'); return; }
+    if (!validateEmail(email)) { setEmailError('Please enter a valid email'); return; }
+
     setIsLoading(true);
-    
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const routes = {
-      student: '/student/dashboard',
-      admin: '/admin',
-      superadmin: '/superadmin'
-    };
-    
-    setIsLoading(false);
-    onClose();
-    window.location.href = routes[selectedRole];
+    setOtpError('');
+
+    try {
+      const res = await fetch(`${API_URL}/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, role: selectedRole }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setStep('otp');
+        setOtpSent(true);
+        setResendTimer(30);
+        setSuccessMessage('OTP sent to your email!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+        // Focus first OTP input after transition
+        setTimeout(() => otpRefs.current[0]?.focus(), 400);
+      } else {
+        setOtpError(data.message || 'Failed to send OTP');
+      }
+    } catch {
+      setOtpError('Server error. Please make sure the OTP server is running.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ── Resend OTP ──────────────────────────────────────────────────
+  const handleResendOTP = async () => {
+    if (resendTimer > 0) return;
+
+    setIsLoading(true);
+    setOtpError('');
+    setOtp(['', '', '', '', '', '']);
+
+    try {
+      const res = await fetch(`${API_URL}/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, role: selectedRole }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setResendTimer(30);
+        setSuccessMessage('New OTP sent!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+        setTimeout(() => otpRefs.current[0]?.focus(), 100);
+      } else {
+        setOtpError(data.message || 'Failed to resend OTP');
+      }
+    } catch {
+      setOtpError('Server error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ── OTP Input Handling ──────────────────────────────────────────
+  const handleOtpChange = (index, value) => {
+    // Only allow digits
+    if (value && !/^\d$/.test(value)) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    setOtpError('');
+
+    // Auto-advance to next input
+    if (value && index < 5) {
+      otpRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index, e) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').trim();
+    if (/^\d{6}$/.test(pastedData)) {
+      const newOtp = pastedData.split('');
+      setOtp(newOtp);
+      otpRefs.current[5]?.focus();
+    }
+  };
+
+  // ── Verify OTP ──────────────────────────────────────────────────
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    const otpString = otp.join('');
+
+    if (otpString.length !== 6) {
+      setOtpError('Please enter the complete 6-digit OTP');
+      return;
+    }
+
+    setIsLoading(true);
+    setOtpError('');
+
+    try {
+      const res = await fetch(`${API_URL}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp: otpString, role: selectedRole }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        auth.login(email, selectedRole);
+        setSuccessMessage('Verified! Redirecting...');
+        setTimeout(() => {
+          setIsLoading(false);
+          onClose();
+          navigate(data.redirectTo);
+        }, 1000);
+        return;
+      } else {
+        setOtpError(data.message || 'Invalid OTP');
+        setOtp(['', '', '', '', '', '']);
+        setTimeout(() => otpRefs.current[0]?.focus(), 100);
+      }
+    } catch {
+      setOtpError('Server error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ── Go back from OTP step to email step ─────────────────────────
+  const handleBackToEmail = () => {
+    setStep('email');
+    setOtp(['', '', '', '', '', '']);
+    setOtpError('');
+    setSuccessMessage('');
   };
 
   const currentRole = roles.find(r => r.id === selectedRole);
@@ -151,6 +282,7 @@ export default function LoginModal({ isOpen, onClose }) {
           <X size={20} />
         </button>
 
+        {/* ── Role Selection Screen ─────────────────────────────── */}
         <div className={`login-modal-content ${selectedRole ? 'slide-left' : ''}`}>
           <div className="login-modal-header">
             <div className="login-modal-logo">
@@ -171,7 +303,7 @@ export default function LoginModal({ isOpen, onClose }) {
                   key={role.id}
                   className="role-card"
                   onClick={() => setSelectedRole(role.id)}
-                  style={{ 
+                  style={{
                     '--role-color': role.color,
                     '--role-gradient': role.gradient,
                     '--delay': `${index * 0.1}s`
@@ -195,10 +327,24 @@ export default function LoginModal({ isOpen, onClose }) {
           </div>
         </div>
 
+        {/* ── Login Form (Email → OTP) ─────────────────────────── */}
         <div className={`login-form-container ${selectedRole ? 'visible' : ''}`}>
-          <button className="back-button" onClick={() => setSelectedRole(null)}>
+          <button className="back-button" onClick={() => {
+            if (step === 'otp') {
+              handleBackToEmail();
+            } else {
+              setSelectedRole(null);
+              setStep('email');
+              setOtp(['', '', '', '', '', '']);
+              setOtpError('');
+              setEmail('');
+              setEmailError('');
+              setEmailTouched(false);
+              setSuccessMessage('');
+            }
+          }}>
             <ArrowLeft size={18} />
-            <span>Back</span>
+            <span>{step === 'otp' ? 'Change Email' : 'Back'}</span>
           </button>
 
           {currentRole && (
@@ -207,90 +353,138 @@ export default function LoginModal({ isOpen, onClose }) {
                 <currentRole.icon size={20} />
                 <span>{currentRole.title} Login</span>
               </div>
-              <h2>Sign in to your account</h2>
-              <p>Enter your credentials to continue</p>
+              <h2>{step === 'email' ? 'Enter your email' : 'Verify OTP'}</h2>
+              <p>
+                {step === 'email'
+                  ? "We'll send a one-time password to your email"
+                  : (<>Enter the 6-digit code sent to <strong>{email}</strong></>)
+                }
+              </p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="login-form">
-            <div className={`form-group ${errors.email && touched.email ? 'has-error' : ''} ${formData.email && !errors.email ? 'valid' : ''}`}>
-              <label htmlFor="email">Email Address</label>
-              <div className="input-wrapper">
-                <Mail size={18} className="input-icon" />
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  onBlur={() => handleBlur('email')}
-                  autoComplete="email"
-                />
-                {formData.email && !errors.email && (
-                  <div className="valid-check">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
+          {/* Success toast */}
+          {successMessage && (
+            <div className="otp-success-toast">
+              <CheckCircle2 size={16} />
+              <span>{successMessage}</span>
+            </div>
+          )}
+
+          {/* ── Step 1: Email ──────────────────────────────────── */}
+          {step === 'email' && (
+            <form onSubmit={handleSendOTP} className="login-form">
+              <div className={`form-group ${emailError && emailTouched ? 'has-error' : ''} ${email && !emailError ? 'valid' : ''}`}>
+                <label htmlFor="email">Email Address</label>
+                <div className="input-wrapper">
+                  <Mail size={18} className="input-icon" />
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => handleEmailChange(e.target.value)}
+                    onBlur={handleEmailBlur}
+                    autoComplete="email"
+                  />
+                  {email && !emailError && (
+                    <div className="valid-check">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                {emailError && emailTouched && <span className="error-message">{emailError}</span>}
+              </div>
+
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isLoading}
+                style={{ '--role-gradient': currentRole?.gradient }}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 size={20} className="spinner" />
+                    <span>Sending OTP...</span>
+                  </>
+                ) : (
+                  <>
+                    <Mail size={20} />
+                    <span>Send OTP</span>
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+
+          {/* ── Step 2: OTP Verification ──────────────────────── */}
+          {step === 'otp' && (
+            <form onSubmit={handleVerifyOTP} className="login-form">
+              <div className="otp-input-group">
+                <label>
+                  <KeyRound size={16} />
+                  <span>One-Time Password</span>
+                </label>
+                <div className="otp-inputs" onPaste={handleOtpPaste}>
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      ref={(el) => (otpRefs.current[index] = el)}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleOtpChange(index, e.target.value)}
+                      onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                      className={`otp-digit ${digit ? 'filled' : ''} ${otpError ? 'error' : ''}`}
+                      autoComplete="one-time-code"
+                    />
+                  ))}
+                </div>
+                {otpError && (
+                  <span className="error-message otp-error-message">
+                    {otpError}
+                  </span>
                 )}
               </div>
-              {errors.email && touched.email && <span className="error-message">{errors.email}</span>}
-            </div>
 
-            <div className={`form-group ${errors.password && touched.password ? 'has-error' : ''} ${formData.password && !errors.password ? 'valid' : ''}`}>
-              <label htmlFor="password">Password</label>
-              <div className="input-wrapper">
-                <Lock size={18} className="input-icon" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
-                  onBlur={() => handleBlur('password')}
-                  autoComplete="current-password"
-                />
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isLoading || otp.join('').length !== 6}
+                style={{ '--role-gradient': currentRole?.gradient }}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 size={20} className="spinner" />
+                    <span>Verifying...</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 size={20} />
+                    <span>Verify & Sign In</span>
+                  </>
+                )}
+              </button>
+
+              <div className="resend-section">
+                <p className="resend-text">Didn't receive the code?</p>
                 <button
                   type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  className={`resend-button ${resendTimer > 0 ? 'disabled' : ''}`}
+                  onClick={handleResendOTP}
+                  disabled={resendTimer > 0 || isLoading}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  <RefreshCw size={14} className={isLoading ? 'spinner' : ''} />
+                  <span>
+                    {resendTimer > 0 ? `Resend in ${resendTimer}s` : 'Resend OTP'}
+                  </span>
                 </button>
               </div>
-              {errors.password && touched.password && <span className="error-message">{errors.password}</span>}
-            </div>
-
-            <div className="form-options">
-              <label className="remember-me">
-                <input type="checkbox" />
-                <span className="checkmark"></span>
-                <span>Remember me</span>
-              </label>
-              <a href="/forgot-password" className="forgot-link">Forgot password?</a>
-            </div>
-
-            <button 
-              type="submit" 
-              className="submit-button"
-              disabled={isLoading}
-              style={{ '--role-gradient': currentRole?.gradient }}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 size={20} className="spinner" />
-                  <span>Signing in...</span>
-                </>
-              ) : (
-                <span>Sign In</span>
-              )}
-            </button>
-          </form>
-
-          <div className="form-footer">
-            <p>Don't have an account? <a href="/register">Sign up</a></p>
-          </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

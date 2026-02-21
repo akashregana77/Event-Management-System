@@ -190,3 +190,39 @@ body.theme-dark .search-kbd {
   border-color: rgba(255, 255, 255, 0.1);
   color: var(--text-muted);
 }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .search-box {
+    padding: 12px 16px;
+    border-radius: var(--radius-xl, 12px);
+    max-width: 100%;
+  }
+
+  .search-kbd {
+    display: none;
+  }
+
+  .search-box input {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .search-box {
+    padding: 10px 14px;
+    gap: var(--space-2);
+  }
+
+  .search-count {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .search-box input {
+    font-size: 14px;
+  }
+}
