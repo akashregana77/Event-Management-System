@@ -61,7 +61,7 @@ function Navbar() {
                         <span className='icon'><i className="fa-solid fa-bullhorn"></i></span>
                         <span className='text'>Events</span>
                     </button>
-                    <button className="nav-btn">
+                    <button className="nav-btn" onClick={() => navigate('/clubs')}>
                         <span className='icon'><i className="fa-solid fa-handshake"></i></span>
                         <span className='text'>Clubs</span>
                     </button>
@@ -106,7 +106,7 @@ function Navbar() {
                         <i className="fa-solid fa-bullhorn"></i>
                         <span>Events</span>
                     </button>
-                    <button className="mobile-nav-item" onClick={() => handleNav('/')}>
+                    <button className="mobile-nav-item" onClick={() => handleNav('/clubs')}>
                         <i className="fa-solid fa-handshake"></i>
                         <span>Clubs</span>
                     </button>

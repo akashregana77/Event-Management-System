@@ -11,6 +11,8 @@ import DomeGallery from './Home/globe/DomeGallery';
 import Events from './Events/components/Events';
 import EventDetails from './Events/components/EventDetails';
 import Clubs from './Home/Bodies/clubs';
+import ClubsPage from './clubs/src/ClubsPage';
+import ClubDetails from './clubs/src/ClubDetails';
 import './Home/HomePage.css';
 
 function Home() {
@@ -35,6 +37,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/clubs" element={<ClubsPage />} />
+          <Route path="/clubs/:id" element={<ClubDetails />} />
 
           {/* Admin routes */}
           <Route path="/admin/*" element={
