@@ -46,6 +46,13 @@ body.theme-dark .nav.scrolled {
   gap: 12px;
 }
 
+.logo-icon .brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+}
+
 .logo {
   font-size: 36px;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
@@ -493,6 +500,11 @@ body.theme-dark .item:hover {
     font-size: 24px;
   }
 
+  .logo-icon .brand-logo {
+    width: 36px;
+    height: 36px;
+  }
+
   .nav-center {
     display: none;
   }
@@ -548,6 +560,11 @@ body.theme-dark .item:hover {
 
   .nav-left {
     gap: 6px;
+  }
+
+  .logo-icon .brand-logo {
+    width: 32px;
+    height: 32px;
   }
 }
 

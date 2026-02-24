@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import LoginModal from '../components/LoginModal'
+import Logo from '../assets/GmritLogo.jpg'
 
 function Navbar() {
     const [loginOpen, setLoginOpen] = useState(false)
@@ -47,7 +48,7 @@ function Navbar() {
                     </button>
 
                     <div className="logo-icon">
-                        <i className="fa-solid fa-graduation-cap"></i>
+                        <img src={Logo} alt="GMRIT"  />
                     </div>
                     <p className="brand">GMRIT<span>Events</span></p>
                 </div>
